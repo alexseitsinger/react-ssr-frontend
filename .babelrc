@@ -1,0 +1,22 @@
+{
+    "presets": [
+        "env",
+        "react",
+        "stage-0"
+    ],
+    "plugins": [
+        //...
+    ],
+    "env": {
+        "development": {
+            "plugins": [
+                //...
+            ]
+        },
+        "production": {
+            "plugins": [
+                //...
+            ]
+        }
+    }
+}
