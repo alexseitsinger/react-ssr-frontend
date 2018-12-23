@@ -1,57 +1,70 @@
 #!/usr/bin/env node
 
-var argv = require("yargs")
-	.option("address", {
-		description: "Specify the servers address",
-		default: "0.0.0.0"
-	})
-	.option("port", {
-		description: "Specify the servers port",
-		default: 3000
-	})
-	.option("bundle", {
-		description: "The bundle that contains our render function."
-	})
-	.option("secretKey", {
-		description: "The secret key to use to allow a render.",
-		default: "THIS_IS_A_SECRET_KEY"
-	})
-	.option("url", {
-		description: "The url to use for the render endpoint",
-		default: "/render"
-	})
-	.help("h")
-	.alias("h", "help")
-	.strict().argv
-
-const ADDRESS = argv.address
-const PORT = argv.port
-const BUNDLE = argv.bundle
-const SECRET_KEY = argv.secretKey
-const URL = argv.url
-
+const yargs = require("yargs")
+const path = require("path")
 const express = require("express")
 const bodyParser = require("body-parser")
 
-const render = require(BUNDLE).default
+// Capture the options
+yargs
+	.option("address", {
+		alias: "a",
+		description: "Specify the servers address",
+		default: "127.0.0.1"
+	})
+	.option("port", {
+		alias: "p",
+		description: "Specify the servers port",
+		default: 3000
+	})
+	.option("url", {
+		alias: "u",
+		description: "The url to use for the render endpoint",
+		default: "/render"
+	})
+	.option("secretKey", {
+		alias: "k",
+		description: "The secret key to use to allow a render."
+	})
+	.option("bundle", {
+		alias: "b",
+		description: "The bundle that contains our render function."
+	})
+	.help("h")
+	.alias("h", "help")
+	.strict()
 
+// Create the variables
+const { address, port, secretKey, url, bundle } = yargs.argv
+const bundlePath = path.resolve(`./${bundle}`)
+
+// Import the server bundle
+var render
+try {
+	render = require(bundlePath).default
+} catch (e) {
+	render = null
+}
+
+// Create the server
 const app = express()
 
 app.use(bodyParser.json({ limit: "10mb" }))
 
-app.post(URL, (req, res) => {
-	const secretKey = req.body.secretKey
-	if (secretKey && secretKey === SECRET_KEY) {
-		const url = req.body.url
-		const initialState = req.body.initialState
-		render(req, url, initialState, (result) => {
-			res.json(result)
-		})
+app.post(url, (req, res) => {
+	if (!secretKey || req.body.secretKey === secretKey) {
+		if (render) {
+			render(req, req.body.url, req.body.initialState, (result) => {
+				res.json(result)
+			})
+		} else {
+			res.status(500).end()
+		}
 	} else {
 		res.status(404).end()
 	}
 })
 
-app.listen(PORT, ADDRESS, () => {
-	console.log(`Render server listening on http://${ADDRESS}:${PORT}`)
+app.listen(port, address, () => {
+	console.log(`Render server listening on http://${address}:${port}`)
 })
