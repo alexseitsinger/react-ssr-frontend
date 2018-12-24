@@ -1,13 +1,6 @@
-import createBrowserHistory from "history/createBrowserHistory"
-import { windowExists, documentExists } from "./utils"
+import { createBrowserHistory } from "history"
 
 function createClient(compose, configureStore, initializer) {
-	if (!windowExists) {
-		throw new Error("Window doesn't exist on client.")
-	}
-	if (!documentExists) {
-		throw new Error("Document doesn't exist on client.")
-	}
 	// Create the store from the DOM.
 	const initialState = window.__STATE__
 
