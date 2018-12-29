@@ -10,7 +10,7 @@ yargs
 	.option("address", {
 		alias: "a",
 		description: "Specify the servers address",
-		default: "127.0.0.1"
+		default: "0.0.0.0"
 	})
 	.option("port", {
 		alias: "p",
@@ -54,7 +54,8 @@ app.use(bodyParser.json({ limit: "10mb" }))
 app.post(url, (req, res) => {
 	if (!secretKey || req.body.secretKey === secretKey) {
 		if (render) {
-			render(req, req.body.url, req.body.initialState, (result) => {
+			const { url, initialState } = req.body
+			render(req, url, initialState, (result) => {
 				res.json(result)
 			})
 		} else {

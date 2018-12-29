@@ -1,6 +1,6 @@
 import { createBrowserHistory } from "history"
 
-function createClient(compose, configureStore, initializer) {
+export default (configureStore, initializer) => {
 	// Create the store from the DOM.
 	const initialState = window.__STATE__
 
@@ -13,15 +13,9 @@ function createClient(compose, configureStore, initializer) {
 	// Create the store to use.
 	const store = configureStore(history, initialState)
 
-	// Compsoe the app to use for the client.
-	const app = compose(
-		store,
-		history
-	)
-
 	// Create a function to invoke when the DOM is ready.
 	function initialize() {
-		initializer(app)
+		initializer(store, history)
 	}
 
 	// When the DOM is ready, invoke the initializer.
@@ -34,5 +28,3 @@ function createClient(compose, configureStore, initializer) {
 	// Return the client-side store for use elesewhere.
 	return store
 }
-
-export default createClient
