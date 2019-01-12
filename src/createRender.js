@@ -1,5 +1,12 @@
 import { createMemoryHistory } from "history"
 
+/**
+ * @name  createRender
+ * @description  The entry point for a server-side bundle.
+ * @param  {function} configureStore Creates the store object.
+ * @param  {Function} handler The function to invoke once the history and store objects have been created. This function will create the rendered app.
+ * @return {Function} Takes arguments req, url, initialState, and callback. Returns a functions that will invoke the handler function or the callback function. Handler returns the rendered app data. Callback returns the error data.
+ */
 export default (configureStore, handler) => (
 	req,
 	url,
