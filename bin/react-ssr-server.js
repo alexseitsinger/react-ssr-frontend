@@ -38,6 +38,16 @@ yargs
 		description: "The name of the state file for each reducer.",
 		default: "state.json"
 	})
+	.option("statsUrl", {
+		alias: "su",
+		description: "The url to to use to get webpack stats data.",
+		default: "/stats"
+	})
+	.option("statsPath", {
+		alias: "sp",
+		description: "The path to the webpack stats file directory.",
+		default: ""
+	})
 	.option("secretKey", {
 		alias: "k",
 		description: "The secret key to use to allow a render."
@@ -59,6 +69,8 @@ const {
 	defaultStateUrl,
 	defaultStatePath,
 	defaultStateFileName,
+	statsUrl,
+	statsPath,
 	bundle
 } = yargs.argv
 
@@ -81,30 +93,57 @@ function onSecretKeyMatch(secretKeyPassed, onSuccess, onFailure) {
 	return onFailure()
 }
 
+function readFile(path, callback, errback) {
+	fs.exists(path, (exists) => {
+		if (exists) {
+			fs.readFile(path, "utf8", (err, data) => {
+				if (err) {
+					throw err
+				}
+				callback(data)
+			})
+		} else {
+			errback()
+		}
+	})
+}
+
 // Create the server
 const app = express()
 
 app.use(bodyParser.json({ limit: "10mb" }))
 
+app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
+	const { agentName, environmentName } = req.params
+	const statsFile = path.resolve(
+		`./${statsPath}/webpack-stats.${agentName}.${environmentName}.json`
+	)
+	readFile(
+		statsFile,
+		(data) => {
+			res.json(JSON.parse(data))
+		},
+		() => {
+			res.status(404).end()
+		}
+	)
+})
+
 // Returns the json data for the default state of a reducer.
 app.get(`${defaultStateUrl}/:reducerName`, (req, res) => {
 	const { reducerName } = req.params
-	const stateFilePath = path.resolve(
+	const stateFile = path.resolve(
 		`./${defaultStatePath}/${reducerName}/${defaultStateFileName}`
 	)
-	fs.exists(stateFilePath, (exists) => {
-		if (exists) {
-			fs.readFile(stateFilePath, "utf8", (err, data) => {
-				if (err) {
-					throw err
-				}
-				res.json(JSON.parse(data))
-			})
-		} else {
-			// do something if file doesnt exist.
+	readFile(
+		stateFile,
+		(data) => {
+			res.json(JSON.parse(data))
+		},
+		() => {
 			res.status(404).end()
 		}
-	})
+	)
 })
 
 // Returns the rendered react component data.
