@@ -9,52 +9,50 @@ const fs = require("fs")
 // Capture the options
 yargs
 	.option("address", {
-		alias: "a",
 		description: "Specify the servers address",
 		default: "0.0.0.0"
 	})
 	.option("port", {
-		alias: "p",
 		description: "Specify the servers port",
 		default: 3000
 	})
 	.option("renderUrl", {
-		alias: "u",
 		description: "The url to use for the render endpoint",
 		default: "/render"
 	})
-	.option("defaultStateUrl", {
-		alias: "d",
+	.option("stateUrl", {
 		description: "The url to use for getting default state.",
 		default: "/state"
 	})
-	.option("defaultStatePath", {
-		alias: "dsp",
-		description: "The path to use for finding default state of reducers.",
+	.option("statePath", {
+		description: "The path to use for finding default state file of reducer.",
 		default: "src/reducers"
 	})
-	.option("defaultStateFileName", {
-		alias: "dsfp",
+	.option("stateFileName", {
 		description: "The name of the state file for each reducer.",
 		default: "state.json"
 	})
 	.option("statsUrl", {
-		alias: "su",
 		description: "The url to to use to get webpack stats data.",
 		default: "/stats"
 	})
 	.option("statsPath", {
-		alias: "sp",
-		description: "The path to the webpack stats file directory.",
+		description: "The path to the webpack stats file.",
 		default: ""
 	})
+	.option("statsFileName", {
+		description: "The name of the webpack stats file.",
+		default: "webpack-stats"
+	})
 	.option("secretKey", {
-		alias: "k",
-		description: "The secret key to use to allow a render."
+		description: "The secret key to use to protect requests."
+	})
+	.option("secretKeyHeaderName", {
+		description: "The HTTP header that is used for the secret key.",
+		default: "secret-key"
 	})
 	.option("bundle", {
-		alias: "b",
-		description: "The bundle that contains our render function."
+		description: "The bundle that contains our server bundle."
 	})
 	.help("h")
 	.alias("h", "help")
@@ -64,13 +62,15 @@ yargs
 const {
 	address,
 	port,
-	secretKey,
 	renderUrl,
-	defaultStateUrl,
-	defaultStatePath,
-	defaultStateFileName,
+	stateUrl,
+	statePath,
+	stateFileName,
 	statsUrl,
 	statsPath,
+	statsFileName,
+	secretKey,
+	secretKeyHeaderName,
 	bundle
 } = yargs.argv
 
@@ -82,15 +82,22 @@ var render
 try {
 	render = require(bundlePath).default
 } catch (e) {
-	console.log("No render bundle found.")
+	console.log("No server bundle found.")
 }
 
-// Run a function based on the secret key matching
-function onSecretKeyMatch(secretKeyPassed, onSuccess, onFailure) {
-	if (!secretKey || secretKeyPassed === secretKey) {
-		return onSuccess()
+function hasSecretKey(req) {
+	const header = req.get(secretKeyHeaderName)
+	if (!header) {
+		console.log("No secret key header found.")
+		return true
 	}
-	return onFailure()
+	if (!secretKey) {
+		console.log("No secret key specified.")
+		return true
+	}
+	if (header === secretKey) {
+		return true
+	}
 }
 
 function readFile(path, callback, errback) {
@@ -114,9 +121,12 @@ const app = express()
 app.use(bodyParser.json({ limit: "10mb" }))
 
 app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
+	if (!hasSecretKey(req)) {
+		return res.status(400).end()
+	}
 	const { agentName, environmentName } = req.params
 	const statsFile = path.resolve(
-		`./${statsPath}/webpack-stats.${agentName}.${environmentName}.json`
+		`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`
 	)
 	readFile(
 		statsFile,
@@ -130,10 +140,13 @@ app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
 })
 
 // Returns the json data for the default state of a reducer.
-app.get(`${defaultStateUrl}/:reducerName`, (req, res) => {
+app.get(`${stateUrl}/:reducerName`, (req, res) => {
+	if (!hasSecretKey(req)) {
+		return res.status(400).end()
+	}
 	const { reducerName } = req.params
 	const stateFile = path.resolve(
-		`./${defaultStatePath}/${reducerName}/${defaultStateFileName}`
+		`./${statePath}/${reducerName}/${stateFileName}`
 	)
 	readFile(
 		stateFile,
@@ -148,22 +161,16 @@ app.get(`${defaultStateUrl}/:reducerName`, (req, res) => {
 
 // Returns the rendered react component data.
 app.post(renderUrl, (req, res) => {
-	if (render) {
-		onSecretKeyMatch(
-			req.body.secretKey,
-			() => {
-				const { url, initialState } = req.body
-				render(req, url, initialState, (result) => {
-					res.json(result)
-				})
-			},
-			() => {
-				res.status(400).end()
-			}
-		)
-	} else {
-		res.status(500).end()
+	if (!render) {
+		return res.status(500).end()
 	}
+	if (!hasSecretKey(req)) {
+		return res.status(400).end()
+	}
+	const { url, initialState } = req.body
+	render(req, url, initialState, (result) => {
+		res.json(result)
+	})
 })
 
 app.listen(port, address, () => {
