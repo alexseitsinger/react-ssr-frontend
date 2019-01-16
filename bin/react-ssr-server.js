@@ -87,15 +87,7 @@ try {
 
 function hasSecretKey(req) {
 	const header = req.get(secretKeyHeaderName)
-	if (!header) {
-		console.log("No secret key header found.")
-		return true
-	}
-	if (!secretKey) {
-		console.log("No secret key specified.")
-		return true
-	}
-	if (header === secretKey) {
+	if (!secretKey || header === secretKey) {
 		return true
 	}
 }
