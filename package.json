@@ -1,6 +1,6 @@
 {
 	"name": "@alexseitsinger/react-ssr",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"description": "Front-end service for server-side rendering react apps.",
 	"main": "dist/main.js",
 	"homepage": "https://github.com/alexseitsinger/react-ssr-frontend#readme",
@@ -32,6 +32,7 @@
 		"@babel/preset-env": "^7.2.0",
 		"@babel/preset-react": "^7.0.0",
 		"babel-loader": "^8.0.4",
+		"react": "^16.7.0",
 		"webpack": "^4.27.1",
 		"webpack-cli": "^3.1.2"
 	},
@@ -39,11 +40,13 @@
 		"body-parser": "^1.18.3",
 		"express": "^4.16.4",
 		"history": "^4.7.2",
-		"prop-types": "^15.6.2",
-		"react": "^16.6.3",
 		"yargs": "^12.0.5"
 	},
 	"scripts": {
-		"build": "./node_modules/.bin/webpack --config=webpack.config.js"
+		"build": "./node_modules/.bin/webpack --config=webpack.config.js",
+		"test": "./node_modules/.bin/jest"
+	},
+	"peerDependencies": {
+		"react": "^16.7.0"
 	}
 }
