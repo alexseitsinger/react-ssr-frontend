@@ -74,20 +74,31 @@ const {
 	bundle
 } = yargs.argv
 
+console.log(`Using bundle: ${bundle}`)
+
 // Resolve the path to the bundle.
-const bundlePathCurrent = path.resolve(`./${bundle}`)
-const bundlePathRelative = path.resolve(`../../${bundle}`)
+const bundlePathFlat = bundle
+const bundlePathCurrent = path.resolve(__dirname, `./${bundle}`)
+const bundlePathRelative = path.resolve(__dirname, `../../${bundle}`)
 
 // Import the server bundle
 var render
 try {
-	render = require(bundlePathCurrent).default
+	console.log(`Trying bundle path: ${bundlePathFlat}`)
+	render = require(bundlePathFlat).default
 } catch (e) {
 	try {
-		render = require(bundlePathRelative).default
+		console.log(`Trying bundle path: ${bundlePathCurrent}`)
+		render = require(bundlePathCurrent).default
 	}
 	catch (e) {
-		console.log("No server bundle found.")
+		try {
+			console.log(`Trying bundle path: ${bundlePathRelative}`)
+			render = require(bundlePathRelative).default
+		}
+		catch (e) {
+			console.log("No server bundle found.")
+		}
 	}
 }
 
