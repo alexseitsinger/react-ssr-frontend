@@ -75,14 +75,20 @@ const {
 } = yargs.argv
 
 // Resolve the path to the bundle.
-const bundlePath = path.resolve(`./${bundle}`)
+const bundlePathCurrent = path.resolve(`./${bundle}`)
+const bundlePathRelative = path.resolve(`../../${bundle}`)
 
 // Import the server bundle
 var render
 try {
-	render = require(bundlePath).default
+	render = require(bundlePathCurrent).default
 } catch (e) {
-	console.log("No server bundle found.")
+	try {
+		render = require(bundlePathRelative).default
+	}
+	catch (e) {
+		console.log("No server bundle found.")
+	}
 }
 
 function hasSecretKey(req) {
