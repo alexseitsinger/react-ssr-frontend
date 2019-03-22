@@ -80,6 +80,7 @@ console.log(`Using bundle: ${bundle}`)
 const bundlePathFlat = bundle
 const bundlePathCurrent = path.resolve(__dirname, `./${bundle}`)
 const bundlePathRelative = path.resolve(__dirname, `../../${bundle}`)
+const bundlePathFullRelative = path.resolve(__dirname, `../../../../${bundle}`)
 
 // Import the server bundle
 var render
@@ -97,7 +98,13 @@ try {
 			render = require(bundlePathRelative).default
 		}
 		catch (e) {
-			console.log("No server bundle found.")
+			try {
+				console.log(`Trying bundle path: ${bundlePathFullRelative}`)
+				render = require(bundlePathFullRelative).default
+			}
+			catch (e) {
+				console.log("No server bundle found.")
+			}
 		}
 	}
 }
