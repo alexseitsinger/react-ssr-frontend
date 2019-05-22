@@ -6,6 +6,6 @@ import React from "react"
  * @param  {Object} App The component tree to wrap.
  * @return {Function} Takes the arguments store, and history. Returns the app with these as props.
  */
-export default (App) => (store, history) => (
-	<App store={store} history={history} />
+export default (App) => ({ store, history, ...rest }) => (
+	<App store={store} history={history} {...rest} />
 )
