@@ -74,39 +74,45 @@ const {
 	bundle
 } = yargs.argv
 
-console.log(`Using bundle: ${bundle}`)
-
-// Resolve the path to the bundle.
-const bundlePathFlat = bundle
-const bundlePathCurrent = path.resolve(__dirname, `./${bundle}`)
-const bundlePathRelative = path.resolve(__dirname, `../../${bundle}`)
-const bundlePathFullRelative = path.resolve(__dirname, `../../../../${bundle}`)
-
-// Import the server bundle
-var render
-try {
-	console.log(`Trying bundle path: ${bundlePathFlat}`)
-	render = require(bundlePathFlat).default
-} catch (e) {
-	try {
-		console.log(`Trying bundle path: ${bundlePathCurrent}`)
-		render = require(bundlePathCurrent).default
-	}
-	catch (e) {
-		try {
-			console.log(`Trying bundle path: ${bundlePathRelative}`)
-			render = require(bundlePathRelative).default
-		}
-		catch (e) {
+function getBundle() {
+	var render
+	const bundlePaths = [
+		bundle,
+		path.resolve(__dirname, `./${bundle}`),
+		path.resolve(__dirname, `../../${bundle}`),
+		path.resolve(__dirname, `../../../../${bundle}`),
+	]
+	const failed = []
+	const succeeded = []
+	while (bundlePaths.length){
+		const bundlePath = bundlePaths.shift()
+		if(!render){
+			const result = {"path": bundlePath}
 			try {
-				console.log(`Trying bundle path: ${bundlePathFullRelative}`)
-				render = require(bundlePathFullRelative).default
+				render = require(bundlePath).default
+				succeeded.push(result)
 			}
 			catch (e) {
-				console.log("No server bundle found.")
+				result["error"] = {
+					"type": e.name,
+					"message": e.message,
+				}
+				failed.push(result)
 			}
 		}
 	}
+	if(!render){
+		failed.forEach((obj) => {
+			console.log(`Import failed: ${obj.path}`)
+			console.log(`    Reason: ${obj.error.type} - ${obj.error.message}`)
+		})
+	}
+	else {
+		succeeded.forEach((obj) => {
+			console.log(`Import succeeded: ${obj.path}`)
+		})
+	}
+	return render
 }
 
 function hasSecretKey(req) {
@@ -177,6 +183,7 @@ app.get(`${stateUrl}/:reducerName`, (req, res) => {
 
 // Returns the rendered react component data.
 app.post(renderUrl, (req, res) => {
+	const render = getBundle()
 	if (!render) {
 		return res.status(500).end()
 	}
