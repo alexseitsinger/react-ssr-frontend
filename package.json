@@ -1,6 +1,6 @@
 {
 	"name": "@alexseitsinger/react-ssr",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"description": "Front-end service for server-side rendering react apps.",
 	"main": "dist/main.js",
 	"homepage": "https://github.com/alexseitsinger/react-ssr-frontend#readme",
@@ -19,25 +19,24 @@
 		"react-ssr-server": "./bin/react-ssr-server.js"
 	},
 	"devDependencies": {
-		"babel-core": "^6.26.3",
-		"babel-loader": "^7.1.5",
-		"babel-preset-env": "^1.7.0",
-		"babel-preset-react": "^6.24.1",
-		"babel-preset-stage-0": "^6.24.1",
-		"webpack": "^4.16.1",
-		"webpack-cli": "^3.1.0"
+		"@babel/core": "^7.2.0",
+		"@babel/plugin-proposal-export-default-from": "^7.2.0",
+		"@babel/plugin-proposal-export-namespace-from": "^7.2.0",
+		"@babel/plugin-syntax-export-default-from": "^7.2.0",
+		"@babel/plugin-syntax-export-namespace-from": "^7.2.0",
+		"@babel/preset-env": "^7.2.0",
+		"@babel/preset-react": "^7.0.0",
+		"babel-loader": "^8.0.4",
+		"webpack": "^4.27.1",
+		"webpack-cli": "^3.1.2"
 	},
 	"dependencies": {
 		"body-parser": "^1.18.3",
-		"connected-react-router": "^5.0.1",
-		"express": "^4.16.3",
+		"express": "^4.16.4",
 		"history": "^4.7.2",
-		"prop-types": "^15.6.0",
-		"react": "^16.4.1",
-		"react-redux": "^5.0.6",
-		"react-router": "^4.3.1",
-		"redux": "^3.7.2",
-		"yargs": "^11.0.0"
+		"prop-types": "^15.6.2",
+		"react": "^16.6.3",
+		"yargs": "^12.0.5"
 	},
 	"scripts": {
 		"build": "./node_modules/.bin/webpack --config=webpack.config.js"
