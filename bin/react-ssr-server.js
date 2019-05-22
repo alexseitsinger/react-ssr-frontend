@@ -190,8 +190,7 @@ app.post(renderUrl, (req, res) => {
 	if (!hasSecretKey(req)) {
 		return res.status(400).end()
 	}
-	const { url, initialState } = req.body
-	render(req, url, initialState, (result) => {
+	render(req, (result) => {
 		res.json(result)
 	})
 })
