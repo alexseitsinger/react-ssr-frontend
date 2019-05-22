@@ -18,7 +18,7 @@ yarn add @alexseitsinger/react-ssr
 
 ## Modules
 
--   createCompose - (args: components) - Creates the function that returns the composed app tree to be rendered.
+-   createCompose - (args: App) - Creates the function that returns the composed app to be rendered with store and history.
 
 -   createRender - (args: compose, configureStore, handler) - Creates the render function used to render the app server-side.
 
@@ -36,9 +36,7 @@ import React from "react"
 import { createCompose } from "@alexseitsinger/react-ssr"
 import App from "./app"
 
-const compose = createCompose(App)
-
-export default compose
+export default createCompose(App)
 ```
 
 #### Create the entry point for client-side webpack bundle.
@@ -55,9 +53,7 @@ import { loadComponents } from "loadable-components"
 
 export const store = createClient(compose, configureStore, (app) => {
 	const mountPoint = document.getElementsByTagName("main")[0]
-	loadComponents().then(() => {
-		ReactDOM.hydrate(app, mountPoint)
-	})
+	ReactDOM.hydrate(app, mountPoint)
 })
 ```
 
@@ -70,35 +66,25 @@ export const store = createClient(compose, configureStore, (app) => {
 import { createRender } from "@alexseitsinger/react-ssr"
 import compose from "./compose"
 import configureStore from "./store"
-import { getLoadableState } from "loadable-components/server"
 import { renderToString } from "react-dom/server"
 
-const render = createRender(
+export default createRender(
 	compose,
 	configureStore,
 	(req, url, store, app, callback) => {
-		// Get the lazy-loaded component(s).
-		getLoadableState(app).then((loadableState) => {
-			// Render the HTML.
-			const html = renderToString(app)
+		// Render the HTML.
+		const html = renderToString(app)
 
-			// Get the loadable component(s) to render.
-			const script = loadableState.getScriptTag()
+		// Return the final state to use on the client.
+		const state = store.getState()
 
-			// Return the final state to use on the client.
-			const state = store.getState()
-
-			// Invoke the callback to pass the data to django.
-			callback({
-				html,
-				state,
-				script
-			})
+		// Invoke the callback to pass the data to django.
+		callback({
+			html,
+			state
 		})
 	}
 )
-
-export default render
 ```
 
 #### Create the server-side bundle using webpack.
