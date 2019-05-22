@@ -1,13 +1,13 @@
 import { createBrowserHistory } from "history"
 
 /**
- * @name createClient
- * @description The entry point for a client-side bundle.
+ * @name clientRender
+ * @description The entry point for the client-side bundle.
  * @param  {Function} configureStore Creates the store object.
- * @param  {Function} initializer Invoked when the DOM is ready. This function renders the app.
- * @return {Object} The store used to create the application.
+ * @param  {Function} render Renders the app, once the DOM is loaded.
+ * @return {Object} The store used to create the app.
  */
-export default (configureStore, initializer) => {
+export default (configureStore, render) => {
 	// Create the store from the DOM.
 	const initialState = window.__STATE__
 
@@ -22,7 +22,7 @@ export default (configureStore, initializer) => {
 
 	// Create a function to invoke when the DOM is ready.
 	function initialize() {
-		initializer(store, history)
+		render(store, history)
 	}
 
 	// When the DOM is ready, invoke the initializer.
