@@ -21,7 +21,7 @@ export default (configureStore, render) => (request, errback) => {
 		const store = configureStore(history, initialState)
 
 		// Render the component.
-		render(request, store, history, callback)
+		render(request, store, history, errback)
 	} catch (e) {
 		// Return an error object to django.
 		errback({
