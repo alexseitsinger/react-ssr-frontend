@@ -5,9 +5,9 @@ import { createMemoryHistory } from "history"
  * @description  The entry point for the server-side bundle.
  * @param  {Function} configureStore Creates the store object.
  * @param  {Function} render Creates the rendered app output.
- * @return {Function} Takes arugments (request, callback). When invoked, will either run the render or the callback.
+ * @return {Function} Takes arugments (request, response). When invoked, will either run the render or the callback.
  */
-export default (configureStore, render) => (request, callback) => {
+export default (configureStore, render) => (request, response) => {
 	try {
 		const { url, initialState } = request.body
 
@@ -21,10 +21,10 @@ export default (configureStore, render) => (request, callback) => {
 		const store = configureStore(history, initialState)
 
 		// Render the component.
-		render(request, store, history, callback)
+		render(request, store, history, response)
 	} catch (e) {
 		// Return an error object to django.
-		callback({
+		response({
 			error: {
 				type: e.constructor.name,
 				message: e.message,
