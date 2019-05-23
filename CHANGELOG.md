@@ -1,9 +1,5 @@
-<a name="v1.0.1"></a>
-## [v1.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.0...v1.0.1) (2019-05-23)
-
-
-<a name="v1.0.0"></a>
-## [v1.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v1.0.0) (2019-05-23)
+<a name="v0.2.13"></a>
+## [v0.2.13](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v0.2.13)
 
 ### Code Refactoring
 - changes client function ([77f52b1](https://github.com/alexseitsinger/react-ssr-frontend/commit/77f52b16c671a6b1e050dba2d85d61502c8138e1))
