@@ -1,98 +1,108 @@
-<a name="v0.2.13"></a>
-## [v0.2.13](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v0.2.13)
+<a name="v1.0.2"></a>
+## [v1.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.1...v1.0.2)
+
+
+<a name="v1.0.1"></a>
+## [v1.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.0...v1.0.1) (2019-05-23)
+
+
+<a name="v1.0.0"></a>
+## [v1.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v1.0.0) (2019-05-23)
 
 ### Code Refactoring
-- changes client function ([77f52b1](https://github.com/alexseitsinger/react-ssr-frontend/commit/77f52b16c671a6b1e050dba2d85d61502c8138e1))
-- changes compose function ([921bf07](https://github.com/alexseitsinger/react-ssr-frontend/commit/921bf076baba2c83bdad831109666debce6e3b6d))
-- changes server function ([596ff66](https://github.com/alexseitsinger/react-ssr-frontend/commit/596ff66ee36e5b3654bd1dc81d06dab5ef01ce1b))
-- changes the functions imported ([635a471](https://github.com/alexseitsinger/react-ssr-frontend/commit/635a471acb19dd135bf58c91a71c749e82d45c0f))
-- renamed some variables, changed formatting ([8002b7b](https://github.com/alexseitsinger/react-ssr-frontend/commit/8002b7b0916ab0aa90754b376ac787f55bccd3f2))
+- changes client function ([6424de0](https://github.com/alexseitsinger/react-ssr-frontend/commit/6424de0d8fa767a5c2633aae01f70f6b9d19440b))
+- changes compose function ([e21a5cc](https://github.com/alexseitsinger/react-ssr-frontend/commit/e21a5ccdccfbbbec140cf7d5a9883c34ef251d75))
+- changes server function ([2ddb0e4](https://github.com/alexseitsinger/react-ssr-frontend/commit/2ddb0e4b57bf866e31024d9b027f81c48717bc64))
+- changes the functions imported ([e5971d9](https://github.com/alexseitsinger/react-ssr-frontend/commit/e5971d9c653c6d5db1fbb21f894263f064af909c))
+- renamed some variables, changed formatting ([1819ea6](https://github.com/alexseitsinger/react-ssr-frontend/commit/1819ea6cafadd7af7961bc99a29f0f0cc29c141f))
 
 
 <a name="v0.2.12"></a>
-## [v0.2.12](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.11...v0.2.12) (2019-05-22)
+## [v0.2.12](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.11...v0.2.12) (2019-05-23)
 
 ### Code Refactoring
-- adds request as argument ([0c07054](https://github.com/alexseitsinger/react-ssr-frontend/commit/0c070543046a34c8c1a945eb253b10428dc48d75))
-- changes arguments used ([0b4df89](https://github.com/alexseitsinger/react-ssr-frontend/commit/0b4df892af66845dabed779e0a21e7838e6ce5e1))
-- updates script ([ee9d05b](https://github.com/alexseitsinger/react-ssr-frontend/commit/ee9d05bebec27b5280794244441d039c52f805b7))
+- adds request as argument ([fa6f823](https://github.com/alexseitsinger/react-ssr-frontend/commit/fa6f8234a7e091d2b1a468c2698e970d5607f338))
+- changes arguments used ([4517fcd](https://github.com/alexseitsinger/react-ssr-frontend/commit/4517fcda83bcd3ea81706f7d10906b1d14d5631b))
+- updates script ([12737ad](https://github.com/alexseitsinger/react-ssr-frontend/commit/12737ad5ff8d968945e220ce31ffa18fb76f0051))
 
 
 <a name="v0.2.11"></a>
-## [v0.2.11](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.10...v0.2.11) (2019-05-22)
+## [v0.2.11](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.10...v0.2.11) (2019-05-23)
 
 
 <a name="v0.2.10"></a>
-## [v0.2.10](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.9...v0.2.10) (2019-05-22)
+## [v0.2.10](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.9...v0.2.10) (2019-05-23)
 
 ### Code Refactoring
-- updates executable ([06e1e06](https://github.com/alexseitsinger/react-ssr-frontend/commit/06e1e069e9378a80092285492e1dcf538aea066d))
+- updates executable ([831e68f](https://github.com/alexseitsinger/react-ssr-frontend/commit/831e68fd37fa215b10ad9f36830b649cf312c612))
 
 
 <a name="v0.2.9"></a>
-## [v0.2.9](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.8...v0.2.9) (2019-05-22)
+## [v0.2.9](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.8...v0.2.9) (2019-05-23)
 
 
 <a name="v0.2.8"></a>
-## [v0.2.8](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.7...v0.2.8) (2019-05-22)
+## [v0.2.8](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.7...v0.2.8) (2019-05-23)
 
 ### Code Refactoring
-- updates executable ([1117c0b](https://github.com/alexseitsinger/react-ssr-frontend/commit/1117c0b948bda9c30cd9e3ff42d7e8b36d82b0c2))
+- updates executable ([9709791](https://github.com/alexseitsinger/react-ssr-frontend/commit/9709791f4b367d37fe0bd84dabd1ff6f49c32e49))
 
 
 <a name="v0.2.7"></a>
-## [v0.2.7](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.6...v0.2.7) (2019-05-22)
+## [v0.2.7](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.6...v0.2.7) (2019-05-23)
 
 ### Code Refactoring
-- updates executable ([48df91b](https://github.com/alexseitsinger/react-ssr-frontend/commit/48df91be1c04e5d7a8fded3a04f995850abf62ab))
+- updates executable ([e946590](https://github.com/alexseitsinger/react-ssr-frontend/commit/e946590ef33118f13da44e3cc43a9f02107d5251))
 
 
 <a name="v0.2.6"></a>
-## [v0.2.6](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.5...v0.2.6) (2019-05-22)
+## [v0.2.6](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.5...v0.2.6) (2019-05-23)
 
 
 <a name="v0.2.5"></a>
-## [v0.2.5](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.4...v0.2.5) (2019-05-22)
+## [v0.2.5](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.4...v0.2.5) (2019-05-23)
 
 ### Code Refactoring
-- changes bundle path ([61bec98](https://github.com/alexseitsinger/react-ssr-frontend/commit/61bec98e0dc9d5b8979c11c53ca4200411c9c9db))
-- updates executable ([d33ca23](https://github.com/alexseitsinger/react-ssr-frontend/commit/d33ca234aad375ab66682ba7b2e0e44dcbbaf106))
+- changes bundle path ([8c25d3a](https://github.com/alexseitsinger/react-ssr-frontend/commit/8c25d3afcfd7f67210d399739c264330d10b235d))
+- updates executable ([22005d4](https://github.com/alexseitsinger/react-ssr-frontend/commit/22005d4d8b7ec8ffb71e46b79f1b863a49436ed9))
 
 
 <a name="v0.2.4"></a>
-## [v0.2.4](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.3...v0.2.4) (2019-05-22)
+## [v0.2.4](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.3...v0.2.4) (2019-05-23)
 
 ### Code Refactoring
-- updates files ([a14af88](https://github.com/alexseitsinger/react-ssr-frontend/commit/a14af88d0ab8b1e9067658b8472660d0981b26ab))
+- updates files ([81e6944](https://github.com/alexseitsinger/react-ssr-frontend/commit/81e6944e3f4d6a4892d2b8be929349334e2e881a))
 
 
 <a name="v0.2.3"></a>
-## [v0.2.3](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.2...v0.2.3) (2019-05-22)
+## [v0.2.3](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.2...v0.2.3) (2019-05-23)
 
 ### Code Refactoring
-- updates executable ([4de0394](https://github.com/alexseitsinger/react-ssr-frontend/commit/4de03949e04d0881dceefd3060c8f986754b0de3))
+- updates executable ([207a964](https://github.com/alexseitsinger/react-ssr-frontend/commit/207a964bbe5117cf7a6128075d965102685cd2be))
 
 
 <a name="v0.2.2"></a>
-## [v0.2.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.1...v0.2.2) (2019-05-22)
+## [v0.2.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.1...v0.2.2) (2019-05-23)
 
 ### Code Refactoring
-- updates files ([03f9878](https://github.com/alexseitsinger/react-ssr-frontend/commit/03f9878939208624988392473f14cb839fe8674a))
+- updates files ([89fec6d](https://github.com/alexseitsinger/react-ssr-frontend/commit/89fec6db67d1468f7be049c393c1accd6a35b11a))
 
 
 <a name="v0.2.1"></a>
-## [v0.2.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.1.0...v0.2.1) (2019-05-22)
+## [v0.2.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.1.0...v0.2.1) (2019-05-23)
 
 ### Code Refactoring
-- removes provider and condenses output ([f5918f8](https://github.com/alexseitsinger/react-ssr-frontend/commit/f5918f823c22bd1642c772a4975e485c2d2453de))
 - updates files ([38756aa](https://github.com/alexseitsinger/react-ssr-frontend/commit/38756aad875d00ec0d232bb7a85e961596660ed9))
 - updates files ([3d4503f](https://github.com/alexseitsinger/react-ssr-frontend/commit/3d4503f3d706bdaf8fe6e47596e300482062d770))
 
-### Features
-- updates files, adds utils module ([70f48ac](https://github.com/alexseitsinger/react-ssr-frontend/commit/70f48accd9b7baec94e7ae1599867cd2d7c91ac0))
-
 
 <a name="v0.1.0"></a>
-## [v0.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/7bc87c206a6df898a24898ac8f7bdc0e5348429e...v0.1.0) (2018-11-24)
+## [v0.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/7bc87c206a6df898a24898ac8f7bdc0e5348429e...v0.1.0) (2019-05-22)
+
+### Code Refactoring
+- removes provider and condenses output ([f5918f8](https://github.com/alexseitsinger/react-ssr-frontend/commit/f5918f823c22bd1642c772a4975e485c2d2453de))
+
+### Features
+- updates files, adds utils module ([70f48ac](https://github.com/alexseitsinger/react-ssr-frontend/commit/70f48accd9b7baec94e7ae1599867cd2d7c91ac0))
 
 
