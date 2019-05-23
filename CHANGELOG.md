@@ -1,5 +1,12 @@
-<a name="v0.2.13"></a>
-## [v0.2.13](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v0.2.13)
+<a name="v1.0.0"></a>
+## [v1.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v0.2.12...v1.0.0) (2019-05-23)
+
+### Code Refactoring
+- changes client function ([77f52b1](https://github.com/alexseitsinger/react-ssr-frontend/commit/77f52b16c671a6b1e050dba2d85d61502c8138e1))
+- changes compose function ([921bf07](https://github.com/alexseitsinger/react-ssr-frontend/commit/921bf076baba2c83bdad831109666debce6e3b6d))
+- changes server function ([596ff66](https://github.com/alexseitsinger/react-ssr-frontend/commit/596ff66ee36e5b3654bd1dc81d06dab5ef01ce1b))
+- changes the functions imported ([635a471](https://github.com/alexseitsinger/react-ssr-frontend/commit/635a471acb19dd135bf58c91a71c749e82d45c0f))
+- renamed some variables, changed formatting ([8002b7b](https://github.com/alexseitsinger/react-ssr-frontend/commit/8002b7b0916ab0aa90754b376ac787f55bccd3f2))
 
 
 <a name="v0.2.12"></a>
