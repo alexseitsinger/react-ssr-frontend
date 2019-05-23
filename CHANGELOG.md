@@ -1,5 +1,11 @@
 <a name="v1.0.2"></a>
-## [v1.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.1...v1.0.2)
+## [v1.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.1...v1.0.2) (2019-05-23)
+
+### Bug Fixes
+- fixes wrong callback arg ([1c4a831](https://github.com/alexseitsinger/react-ssr-frontend/commit/1c4a831910e5dfecbd4feb4cb1f825a76d6c7ec6))
+
+### Code Refactoring
+- renamed errback to callback ([1f56796](https://github.com/alexseitsinger/react-ssr-frontend/commit/1f56796bc3d13eb2f6267e192bc65c27c42ba07d))
 
 
 <a name="v1.0.1"></a>
