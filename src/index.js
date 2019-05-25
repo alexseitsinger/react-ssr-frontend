@@ -1,3 +1,3 @@
-export clientRender from "./clientRender"
-export serverRender from "./serverRender"
+export createClientRenderer from "./createClientRenderer"
+export createServerRenderer from "./createServerRenderer"
 export composer from "./composer"
