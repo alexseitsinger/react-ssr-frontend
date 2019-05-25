@@ -365,32 +365,6 @@ function renderResponse(req, res){
     getBundle(callback, errback)
 }
 
-// Create the server
-const app = express()
-
-app.use(bodyParser.json({ limit: "10mb" }))
-
-// Return the webpack stats for the agent/environment
-app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
-	const { agentName, environmentName } = req.params
-	const file = path.resolve(
-		`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`
-    )
-    readResponse(file, req, res)
-})
-
-// Returns the json data for the default state of a reducer.
-app.get(`${stateUrl}/:reducerName`, (req, res) => {
-	const { reducerName } = req.params
-	const file = path.resolve(`./${statePath}/${reducerName}/${stateFileName}`)
-    readResponse(file, req, res)
-})
-
-// Returns the rendered react component data.
-app.post(renderUrl, (req, res) => {
-    renderResponse(req, res)
-})
-
 function listen() {
     app.listen(port, address, () => {
         logMessage([`Server listening at http(s)://${address}:${port}`])
@@ -417,5 +391,31 @@ function start() {
     }
     listen()
 }
+
+// Create the server
+const app = express()
+
+app.use(bodyParser.json({ limit: "10mb" }))
+
+// Return the webpack stats for the agent/environment
+app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
+	const { agentName, environmentName } = req.params
+	const file = path.resolve(
+		`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`
+    )
+    readResponse(file, req, res)
+})
+
+// Returns the json data for the default state of a reducer.
+app.get(`${stateUrl}/:reducerName`, (req, res) => {
+	const { reducerName } = req.params
+	const file = path.resolve(`./${statePath}/${reducerName}/${stateFileName}`)
+    readResponse(file, req, res)
+})
+
+// Returns the rendered react component data.
+app.post(renderUrl, (req, res) => {
+    renderResponse(req, res)
+})
 
 start()
