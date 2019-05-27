@@ -1,12 +1,23 @@
 import { createBrowserHistory } from "history"
 
 /**
- * @name createClientRenderer
  * @description The entry point for the client-side bundle.
  * @param  {String} variable The variable to read to get the initial state from the DOM.
  * @param  {Function} createStore Creates the store object.
  * @param  {Function} render Renders the app, once the DOM is loaded.
  * @return {Object} The store used to create the app.
+ * @example
+ * import { hydrate } from "react-dom"
+ * import { createClientRenderer } from "@alexseitsinger/react-ssr"
+ *
+ * import createStore from "./store"
+ * import composed from "./composed"
+ *
+ * export const store = createClientRenderer(createStore, (store, history) => {
+ *   const app = composed({ store, history })
+ *   const mountPoint = document.getElementsByTagName("main")[0]
+ *   hydrate(app, mountPoint)
+ * })
  */
 export default function createClientRenderer(variable, createStore, render){
     // If we dont get a variable passed first, swap the arguemnt positions.

@@ -1,11 +1,23 @@
 import { createMemoryHistory } from "history"
 
 /**
- * @name  createServerRenderer
  * @description  The entry point for the server-side bundle.
  * @param  {Function} createStore Creates the store object.
  * @param  {Function} render Creates the rendered app output.
  * @return {Function} Takes arugments (request, response). When invoked, will either run the render or the callback.
+ * @example
+ * import { renderToString } from "react-dom/server"
+ * import { createServerRenderer } from "@alexseitsinger/react-ssr"
+ * 
+ * import createStore from "./store"
+ * import composed from "./composed"
+ *
+ * export default createServerRenderer(createStore, (request, response, store, history) => {
+ *   const app = composed({ store, history })
+ *   const html = renderToString(app)
+ *   const state = store.getState()
+ *   response({ html, state })
+ * })
  */
 export default function createServerRenderer(createStore, render) {
     return function serverRenderer(request, response) {
