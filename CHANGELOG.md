@@ -1,3 +1,14 @@
+<a name="v1.0.3"></a>
+## [v1.0.3](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.2...v1.0.3) (2019-05-28)
+
+### Code Refactoring
+- adds setup and after methods ([01837c6](https://github.com/alexseitsinger/react-ssr-frontend/commit/01837c62b519e00dd6d7517cae029964ecdc9b91))
+- changes method names ([56cb3de](https://github.com/alexseitsinger/react-ssr-frontend/commit/56cb3de43f29a002a4725c0c432a1b5e1fdecbba))
+- optimizes server script ([1fb2f79](https://github.com/alexseitsinger/react-ssr-frontend/commit/1fb2f79710800e16c47d01d957f756a1f81c13be))
+- renames module and method and changes export ([0854b58](https://github.com/alexseitsinger/react-ssr-frontend/commit/0854b588f2ed4d470f56f69bd92f9990e1a27b76))
+- Updates script. ([210bcbb](https://github.com/alexseitsinger/react-ssr-frontend/commit/210bcbb622756ff8ec4d7a3c3d99ee31409468ed))
+
+
 <a name="v1.0.2"></a>
 ## [v1.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.1...v1.0.2) (2019-05-23)
 
