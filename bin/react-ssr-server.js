@@ -138,15 +138,23 @@ const bundlePaths = [
     path.resolve(__dirname, `./${bundlePathSuffix}`),
     path.resolve(__dirname, `../../${bundlePathSuffix}`),
     path.resolve(__dirname, `../../../../${bundlePathSuffix}`),
-]
+].filter((bp) => {
+    // Remove paths to bundles that exist outside the scope of the root.
+    if(isOutsideRoot(bp)){
+        return false
+    }
+    else {
+        return true
+    }
+})
 
 // Use the same address as the address for this server as the devServer.
-if((devServer === true) && (devServerAddress === "0.0.0.0")){
-    devServerAddress = address
+var devServerUrl
+if((devServer === true) && (devServerAddress === "0.0.0.0")){   
+    devServerUrl = `${devServerProtocol}://${address}:${devServerPort}`
+else {
+    devServerUrl = `${devServerProtocol}://${devServerAddress}:${devServerPort}`
 }
-
-// The URL used for the devServer.
-const devServerUrl = `${devServerProtocol}://${devServerAddress}:${devServerPort}`
 
 // The only files that are allowed to be read.
 const allowedFiles = [statsFileName, stateFileName]
@@ -171,7 +179,7 @@ function importDefault(pathToModule) {
     }
     catch (e) {
         logMessage([
-            "Failed to import default",
+            `Failed to import default. (${pathToModule})`,
             `${e.name}: ${e.message}`,
         ])
     }
@@ -180,14 +188,16 @@ function importDefault(pathToModule) {
 // The function used to get the bundle content.
 function getBundle(callback, errback) {
     if(devServer === true){
-        return getBundleFromDevServer(callback, errback)
+        getBundleFromDevServer(callback, errback)
     }
-    getBundleFromFilesystem(callback, errback)
+    else {
+        getBundleFromFilesystem(callback, errback)
+    }
 }
 
 function getBundleFromDevServer(callback, errback) {
     const url = `${devServerUrl}/${bundlePathSuffix}`
-
+    
     request.get(url, (err, res, body) => {
         if(err || res.statusCode !== 200){
             const messages = [`Failed to get bundle. (${url})`]
@@ -198,38 +208,35 @@ function getBundleFromDevServer(callback, errback) {
                 messages.push(`${res.statusCode}`)
             }
             logMessage(messages)
-            return errback()
-        }
-    
-        try {
-            const evaulatedModule = eval(body)
-            const defaultExport = evaluatedModule.default
-            callback(defaultExport)
-            logMessage([`Successfully loaded bundle. (${url})`])
-        }
-        catch (e) {
-            logMessage([
-                `Failed to load bundle. (${url})`,
-                `${e.name}: ${e.message}`
-            ])
             errback()
+        }
+        else {
+            const evaluatedModule = eval(body)
+            const bundle = (evaluatedModule.default || evaluatedModule)
+            if(isFunction(bundle)){
+                logMessage([`Successfully evaluated bundle. (${url})`])
+                callback(bundle)
+            }
+            else {
+                logMessage(["Failed to import anything from evaluated bundle."])
+                errback()
+            }
         }
     })
 }
 
 function getBundleFromFilesystem(callback, errback) {
-    // The paths possible to search from.
+    var bundle
     // Keep a list of each attempt that fails or succeeds.
 	const failed = []
     const succeeded = []
-    var bundle
     var i = 0
     for(i; i<bundlePaths.length; i++){
         const bundlePath = bundlePaths[i]
         if(!bundle){
             const result = {"path": bundlePath}
             try {
-                bundle = importDefault(bundlePath)
+                bundle = require(bundlePath).default
                 succeeded.push(result)
             }
             catch (e) {
@@ -238,23 +245,24 @@ function getBundleFromFilesystem(callback, errback) {
             }
         }
     }
-    
+
     if(bundle){
         succeeded.forEach((obj) => {
+            const relative = path.relative(root, obj.path)
+            logMessage([`Successfully loaded bundle. (${relative})`])
+        })
+        callback(bundle)
+    }
+    else {
+        failed.forEach((obj) => {
+            const relative = path.relative(root, obj.path)
             logMessage([
-                `Successfully loaded bundle. (${obj.path})`
+                `Failed to load bundle. (${relative})`
+                `${obj.error.name} - ${obj.error.message}`
             ])
         })
-        return callback(bundle)
+        errback()
     }
-
-    failed.forEach((obj) => {
-        logMessage([
-            `Failed to load bundle. (${obj.path})`
-            `${obj.error.name} - ${obj.error.message}`
-        ])
-    })
-    errback()
 }
 
 // Returns true if the header exists and it matches the key specified.
@@ -279,7 +287,7 @@ function isAllowedFile(target){
     var allowed = false
     if(allowedFiletypes.includes(targetExt)){
         allowedFiles.forEach((allowedFile) => {
-            if(allowed) return
+            if(allowed === true) return
             if(targetName === allowedFile || targetName.startsWith(allowedFile)){
                 allowed = true
             }
@@ -312,17 +320,18 @@ function readFile(target, callback, errback) {
     const allowed = isAllowedFile(target)
     if(ignoredFile || outsideRoot || directory || !allowed){
         const messages = ["Failed to read file."]
+        const relative = path.relative(root, target)
         if(ignoredFile){
-            messages.push(`${path} is an ignored file.`)
+            messages.push(`${relative} is an ignored file.`)
         }
         if(outsideRoot){
-            messages.push(`${path} is outside the root directory.`)
+            messages.push(`${relative} is outside the root directory.`)
         }
         if(directory){
-            messages.push(`${path} is a directory.`)
+            messages.push(`${relative} is a directory.`)
         }
         if(!allowed){
-            messages.push(`${path} is not an allowed file.`)
+            messages.push(`${relative} is not an allowed file.`)
         }
         logMessage(messages)
         return errback()
@@ -373,20 +382,22 @@ function listen() {
             afterMethod = importDefault(after)
         }
         if(isFunction(afterMethod)){
-            logMessage([`Running 'after' method. (${after})`])
+            const relative = path.relative(root, after)
+            logMessage([`Running 'after' method. (${relative})`])
             afterMethod(app, address, port)
         }
     }) 
 }
 
 function start() {
-    logMessage(["Starting server..."])
+    logMessage(["Starting server"])
     var setupMethod
     if(setup){
         setupMethod = importDefault(setup)
     }
     if(isFunction(setupMethod)){
-        logMessage([`Running 'setup' method. (${setup})`])
+        const relative = path.relative(root, setup)
+        logMessage([`Running 'setup' method. (${relative})`])
         return setupMethod(app, listen)
     }
     listen()
@@ -400,9 +411,7 @@ app.use(bodyParser.json({ limit: "10mb" }))
 // Return the webpack stats for the agent/environment
 app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
 	const { agentName, environmentName } = req.params
-	const file = path.resolve(
-		`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`
-    )
+	const file = path.resolve(`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`)
     readResponse(file, req, res)
 })
 
