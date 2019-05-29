@@ -1,3 +1,10 @@
+<a name="v1.0.5"></a>
+## [v1.0.5](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.4...v1.0.5) (2019-05-29)
+
+### Code Refactoring
+- Adds log message for ignored files. ([e663f42](https://github.com/alexseitsinger/react-ssr-frontend/commit/e663f420145d4af035fa3f70ccdf29dd2fc04737))
+
+
 <a name="v1.0.4"></a>
 ## [v1.0.4](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.3...v1.0.4) (2019-05-29)
 
