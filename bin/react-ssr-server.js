@@ -337,9 +337,9 @@ function listen() {
 function start() {
     logMessage([
         "Starting server",
-        `Allowed files: ${allAllowedFiles.join(",")}`,
-        `Allowed filetypes: ${allAllowedFiletypes.join(",")}`,
-        `Ignored files: ${allIgnoredFiles.join(",")}`,
+        `Allowed files: ${allAllowedFiles.join(", ")}`,
+        `Allowed filetypes: ${allAllowedFiletypes.join(", ")}`,
+        `Ignored files: ${allIgnoredFiles.join(", ")}`,
     ])
     var beforeMethod
     if(before){
