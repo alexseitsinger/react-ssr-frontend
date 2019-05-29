@@ -50,6 +50,6 @@
 		"test": "./node_modules/.bin/jest"
 	},
 	"peerDependencies": {
-		"react": ^"16.8.6"
+		"react": "16.8.6"
 	}
 }
