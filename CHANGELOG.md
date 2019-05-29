@@ -1,3 +1,13 @@
+<a name="v1.0.4"></a>
+## [v1.0.4](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.3...v1.0.4) (2019-05-29)
+
+### Bug Fixes
+- Adds missing } in if statement. ([f3caac6](https://github.com/alexseitsinger/react-ssr-frontend/commit/f3caac6bdbbdf40779482c0c37d74bb502086710))
+
+### Code Refactoring
+- Changes options. ([3c5e866](https://github.com/alexseitsinger/react-ssr-frontend/commit/3c5e866cc9e22419505bfd045cb5d3227efb1c94))
+
+
 <a name="v1.0.3"></a>
 ## [v1.0.3](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.2...v1.0.3) (2019-05-28)
 
