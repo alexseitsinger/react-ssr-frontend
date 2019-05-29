@@ -338,7 +338,8 @@ function start() {
     logMessage([
         "Starting server",
         `Allowed files: ${allAllowedFiles.join(",")}`,
-        `Allowed filetypes: ${allAllowedFiletypes.join(",")}`
+        `Allowed filetypes: ${allAllowedFiletypes.join(",")}`,
+        `Ignored files: ${allIgnoredFiles.join(",")}`,
     ])
     var beforeMethod
     if(before){
@@ -346,7 +347,7 @@ function start() {
     }
     if(isFunction(beforeMethod)){
         const relative = path.relative(root, before)
-        logMessage([`Running 'setup' method. (${relative})`])
+        logMessage([`Running 'before' method. (${relative})`])
         beforeMethod(app, listen)
     }
     else {
