@@ -152,6 +152,7 @@ const bundlePaths = [
 var devServerUrl
 if((devServer === true) && (devServerAddress === "0.0.0.0")){   
     devServerUrl = `${devServerProtocol}://${address}:${devServerPort}`
+} 
 else {
     devServerUrl = `${devServerProtocol}://${devServerAddress}:${devServerPort}`
 }
