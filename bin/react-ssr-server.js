@@ -171,41 +171,33 @@ function importDefault(pathToModule) {
 }
 
 function getBundle(callback, errback) {
+    // store the bundle here.
     var bundle
-    // Keep a list of each attempt that fails or succeeds.
-	const failed = []
-    const succeeded = []
-    var i = 0
-    for(i; i<bundlePaths.length; i++){
-        const bundlePath = bundlePaths[i]
-        if(!bundle){
-            const result = {"path": bundlePath}
-            try {
-                bundle = require(bundlePath).default
-                succeeded.push(result)
-            }
-            catch (e) {
-				result["error"] = {"name": e.name, "message": e.message}
-				failed.push(result)
-            }
-        }
-    }
 
+    // Iterate over the bundlePaths we have, to find it.
+    bundlePaths.forEach((bundlePath) => {
+        if(bundle) return
+        const relativeBundlePath = path.relative(root, bundlePath)
+        try {
+            bundle = require(bundlePath).default
+            logMessage([
+                "Successfully loaded bundle. (" + relativeBundlePath + ")",
+            ])
+        }
+        catch (e) {
+            logMessage([
+                "Failed to load bundle. (" + relativeBundlePath + ")",
+                `${e.name} - ${e.message}`
+            ])
+        }
+    })
+
+    // If we get a bundle, run the callback with it.
+    // Oterhwise, invoke the errback.
     if(bundle){
-        succeeded.forEach((obj) => {
-            const relative = path.relative(root, obj.path)
-            logMessage([`Successfully loaded bundle. (${relative})`])
-        })
-        callback(bundle)
+       callback(bundle) 
     }
     else {
-        failed.forEach((obj) => {
-            const relative = path.relative(root, obj.path)
-            logMessage([
-                `Failed to load bundle. (${relative})`
-                `${obj.error.name} - ${obj.error.message}`
-            ])
-        })
         errback()
     }
 }
