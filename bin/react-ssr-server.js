@@ -5,7 +5,6 @@ const path = require("path")
 const express = require("express")
 const bodyParser = require("body-parser")
 const fs = require("fs")
-const request = require("request")
 
 // Capture the options
 yargs
@@ -73,33 +72,28 @@ yargs
         default: "server.js",
         string: true,
     })
-    .option("devServer", {
-        describe: "If the bundle is served from webpack-dev-server",
-        default: false,
-        boolean: true,
-    })
-    .option("devServerProtocol", {
-        describe: "The protocol (HTTP/HTTPS) that webpack-dev-server is using.",
-        default: "http",
-        string: true,
-    })
-    .option("devServerAddress", {
-        describe: "The hostname or IP address that webpack-dev-server is using.",
-        default: "0.0.0.0",
-        string: true,
-    })
-    .option("devServerPort", {
-        describe: "The port that webpack-dev-server is using.",
-        default: 8080,
-        number: true,
-    })
-    .option("setup", {
+    .option("before", {
         describe: "The method to run before listening.",
         string: true,
     })
     .option("after", {
         describe: "The method to run after listening.",
         string: true,
+    })
+    .option("allowedFiles", {
+        describe: "Files that are allowed to be read.",
+        default: [],
+        array: true,
+    })
+    .option("allowedFiletypes", {
+        describe: "Filetypes that are allowed to be read.",
+        default: [],
+        array: true,
+    })
+    .option("ignoredFiles", {
+        describe: "Files that are never allowed to be read.",
+        default: [],
+        array: true,
     })
 	.help("h")
 	.alias("h", "help")
@@ -120,12 +114,11 @@ const {
     secretKeyHeaderName,
     bundlePath,
     bundleName,
-    devServer,
-    devServerProtocol,
-    devServerAddress,
-    devServerPort,
-    setup,
+    before,
     after,
+    allowedFiles,
+    allowedFiletypes,
+    ignoredFiles,
 } = yargs.argv
 
 // The project root
@@ -148,23 +141,14 @@ const bundlePaths = [
     }
 })
 
-// Use the same address as the address for this server as the devServer.
-var devServerUrl
-if((devServer === true) && (devServerAddress === "0.0.0.0")){   
-    devServerUrl = `${devServerProtocol}://${address}:${devServerPort}`
-} 
-else {
-    devServerUrl = `${devServerProtocol}://${devServerAddress}:${devServerPort}`
-}
-
 // The only files that are allowed to be read.
-const allowedFiles = [statsFileName, stateFileName]
+const allAllowedFiles = [statsFileName, stateFileName].concat(allowedFiles)
 
 // The only filetypes that are allowed to be read.
-const allowedFiletypes = [".json"]
+const allAllowedFiletypes = [".json"].concat(allowedFiletypes)
 
-// Files that should never be read.
-const ignoredFiles = [".env"]
+// The only files that are never allowed to be read.
+const allIgnoredFiles = [".env"].concat(ignoredFiles)
 
 function logMessage(messages) {
     messages.forEach((msg) => console.log(`[react-ssr]: ${msg}`))
@@ -186,47 +170,7 @@ function importDefault(pathToModule) {
     }
 }
 
-// The function used to get the bundle content.
 function getBundle(callback, errback) {
-    if(devServer === true){
-        getBundleFromDevServer(callback, errback)
-    }
-    else {
-        getBundleFromFilesystem(callback, errback)
-    }
-}
-
-function getBundleFromDevServer(callback, errback) {
-    const url = `${devServerUrl}/${bundlePathSuffix}`
-    
-    request.get(url, (err, res, body) => {
-        if(err || res.statusCode !== 200){
-            const messages = [`Failed to get bundle. (${url})`]
-            if(err){
-                messages.push(`${res.statusCode}: ${err}`)
-            }
-            else {
-                messages.push(`${res.statusCode}`)
-            }
-            logMessage(messages)
-            errback()
-        }
-        else {
-            const evaluatedModule = eval(body)
-            const bundle = (evaluatedModule.default || evaluatedModule)
-            if(isFunction(bundle)){
-                logMessage([`Successfully evaluated bundle. (${url})`])
-                callback(bundle)
-            }
-            else {
-                logMessage(["Failed to import anything from evaluated bundle."])
-                errback()
-            }
-        }
-    })
-}
-
-function getBundleFromFilesystem(callback, errback) {
     var bundle
     // Keep a list of each attempt that fails or succeeds.
 	const failed = []
@@ -278,7 +222,7 @@ function hasSecretKey(req) {
 function isIgnoredFile(target){
     const targetPath = path.resolve(target)
     const targetFile = path.basename(targetPath)
-    return ignoredFiles.includes(targetFile)
+    return allIgnoredFiles.includes(targetFile)
 }
 
 function isAllowedFile(target){
@@ -286,8 +230,8 @@ function isAllowedFile(target){
     const targetName = path.basename(targetPath)
     const targetExt = path.extname(targetName)
     var allowed = false
-    if(allowedFiletypes.includes(targetExt)){
-        allowedFiles.forEach((allowedFile) => {
+    if(allAllowedFiletypes.includes(targetExt)){
+        allAllowedFiles.forEach((allowedFile) => {
             if(allowed === true) return
             if(targetName === allowedFile || targetName.startsWith(allowedFile)){
                 allowed = true
@@ -391,17 +335,23 @@ function listen() {
 }
 
 function start() {
-    logMessage(["Starting server"])
-    var setupMethod
-    if(setup){
-        setupMethod = importDefault(setup)
+    logMessage([
+        "Starting server",
+        `Allowed files: ${allAllowedFiles.join(",")}`,
+        `Allowed filetypes: ${allAllowedFiletypes.join(",")}`
+    ])
+    var beforeMethod
+    if(before){
+        beforeMethod = importDefault(before)
     }
-    if(isFunction(setupMethod)){
-        const relative = path.relative(root, setup)
+    if(isFunction(beforeMethod)){
+        const relative = path.relative(root, before)
         logMessage([`Running 'setup' method. (${relative})`])
-        return setupMethod(app, listen)
+        beforeMethod(app, listen)
     }
-    listen()
+    else {
+        listen()
+    }
 }
 
 // Create the server
