@@ -150,8 +150,11 @@ const allAllowedFiletypes = [".json"].concat(allowedFiletypes)
 // The only files that are never allowed to be read.
 const allIgnoredFiles = [".env"].concat(ignoredFiles)
 
-function logMessage(messages) {
-    messages.forEach((msg) => console.log(`[react-ssr]: ${msg}`))
+function logMessage(lines) {
+    const first = "[react-ssr]: " + lines.shift()
+    const rest = lines.map((line) => ("  " + line))
+    const final = ([first].concat(rest)).join("\n")
+    console.log(final)
 }
 
 function isFunction(f) {
@@ -173,31 +176,45 @@ function importDefault(pathToModule) {
 function getBundle(callback, errback) {
     // store the bundle here.
     var bundle
-
+    const succeeded = []
+    const failed = []
     // Iterate over the bundlePaths we have, to find it.
     bundlePaths.forEach((bundlePath) => {
         if(bundle) return
         const relativeBundlePath = path.relative(root, bundlePath)
+        const result = {
+            paths: {
+                absolute: bundlePath,
+                relative: relativeBundlePath,
+            }
+        }
         try {
             bundle = require(bundlePath).default
-            logMessage([
-                "Successfully loaded bundle. (" + relativeBundlePath + ")",
-            ])
+            succeeded.push(result)
         }
         catch (e) {
-            logMessage([
-                "Failed to load bundle. (" + relativeBundlePath + ")",
-                `${e.name} - ${e.message}`
-            ])
+            result["error"] = {name: e.name, message: e.message}
+            failed.push(result)
         }
     })
 
     // If we get a bundle, run the callback with it.
     // Oterhwise, invoke the errback.
     if(bundle){
-       callback(bundle) 
+        succeeded.forEach((result) => {
+            logMessage([
+                "Successfully loaded bundle. (" + result.paths.relative + ")",
+            ])
+        })
+        callback(bundle) 
     }
     else {
+        failed.forEach((result) => {
+            logMessage([
+                "Failed to load bundle. (" + result.paths.relative + ")",
+                `${result.error.name} - ${result.error.message}`
+            ])
+        })
         errback()
     }
 }
@@ -327,12 +344,9 @@ function listen() {
 }
 
 function start() {
-    logMessage([
-        "Starting server",
-        `Allowed files: ${allAllowedFiles.join(", ")}`,
-        `Allowed filetypes: ${allAllowedFiletypes.join(", ")}`,
-        `Ignored files: ${allIgnoredFiles.join(", ")}`,
-    ])
+    logMessage([`Allowed files: ${allAllowedFiles.join(", ")}`])
+    logMessage([`Allowed filetypes: ${allAllowedFiletypes.join(", ")}`])
+    logMessage([`Ignored files: ${allIgnoredFiles.join(", ")}`])
     var beforeMethod
     if(before){
         beforeMethod = importDefault(before)
