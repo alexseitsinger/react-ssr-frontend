@@ -1,6 +1,6 @@
 {
 	"name": "@alexseitsinger/react-ssr",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Front-end service for server-side rendering react apps.",
 	"main": "dist/main.js",
 	"homepage": "https://github.com/alexseitsinger/react-ssr-frontend#readme",
