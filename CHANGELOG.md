@@ -1,3 +1,14 @@
+<a name="v1.0.6"></a>
+## [v1.0.6](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.5...v1.0.6) (2019-05-30)
+
+### Bug Fixes
+- Fixes "is not a function" log message error. ([81faf20](https://github.com/alexseitsinger/react-ssr-frontend/commit/81faf20e606495d12eb5a1e660e3f1c9f8b975e6))
+
+### Code Refactoring
+- Adds space between each name in log msg. ([a5fb780](https://github.com/alexseitsinger/react-ssr-frontend/commit/a5fb780717c24ab7a859a3385d3f48af6f33b734))
+- Changes log message format. ([22552e8](https://github.com/alexseitsinger/react-ssr-frontend/commit/22552e8285914cd34139d3ec9c94a5c95202126a))
+
+
 <a name="v1.0.5"></a>
 ## [v1.0.5](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.4...v1.0.5) (2019-05-29)
 
