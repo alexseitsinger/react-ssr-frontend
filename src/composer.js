@@ -12,10 +12,10 @@ import React from "react"
  *
  * export default composer(App)
  */
-export default function composer(App) {
-    function ComposedApp({ store, history, ...rest }) {
-        return (<App store={store} history={history} {...rest} />)
-    }
+export function composer(App) {
+  function ComposedApp({ store, history, ...rest }) {
+    return (<App store={store} history={history} {...rest} />)
+  }
 
-    return ComposedApp
+  return ComposedApp
 }

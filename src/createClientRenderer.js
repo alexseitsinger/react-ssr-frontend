@@ -19,37 +19,36 @@ import { createBrowserHistory } from "history"
  *   hydrate(app, mountPoint)
  * })
  */
-export default function createClientRenderer(variable, createStore, render){
-    // If we dont get a variable passed first, swap the arguemnt positions.
-    if(typeof variable === "function"){
-        render = createStore
-        createStore = variable
-        variable = "__STATE__"
-    }
-	// Create the store from the DOM.
-	const initialState = window[variable]
-    
-    // Allow the state to be garbage collected.
-	delete window[variable]
+export function createClientRenderer({
+  variable = "__STATE__",
+  createStore,
+  render,
+}) {
+  // Create the store from the DOM.
+  const initialState = window[variable]
 
-	// Create a history entry for the client.
-	const history = createBrowserHistory()
+  // Allow the state to be garbage collected.
+  delete window[variable]
 
-	// Create the store to use.
-	const store = createStore(history, initialState)
+  // Create a history entry for the client.
+  const history = createBrowserHistory()
 
-	// Create a function to invoke when the DOM is ready.
-	function clientRenderer() {
-		render(store, history)
-	}
+  // Create the store to use.
+  const store = createStore(history, initialState)
 
-	// When the DOM is ready, invoke the initializer.
-	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", clientRenderer)
-	} else {
-		clientRenderer()
-	}
+  // Create a function to invoke when the DOM is ready.
+  function clientRenderer() {
+    render(store, history)
+  }
 
-	// Return the client-side store for use elesewhere.
-	return store
+  // When the DOM is ready, invoke the initializer.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", clientRenderer)
+  }
+  else {
+    clientRenderer()
+  }
+
+  // Return the client-side store for use elesewhere.
+  return store
 }

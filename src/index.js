@@ -1,3 +1,3 @@
-export createClientRenderer from "./createClientRenderer"
-export createServerRenderer from "./createServerRenderer"
-export composer from "./composer"
+export { createClientRenderer } from "./createClientRenderer"
+export { createServerRenderer } from "./createServerRenderer"
+export { composer } from "./composer"
