@@ -1,3 +1,15 @@
+<a name="v1.1.1"></a>
+## [v1.1.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.0...v1.1.1)
+
+
+<a name="v1.1.0"></a>
+## [v1.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.6...v1.1.0) (2019-06-14)
+
+### Code Refactoring
+- Aligns whitespace. Uses named exports. ([8eb6dce](https://github.com/alexseitsinger/react-ssr-frontend/commit/8eb6dce672676d8373fcae0fd26197ff5b6b2a02))
+- Resets whitespace. Changes callbacks. ([7444139](https://github.com/alexseitsinger/react-ssr-frontend/commit/7444139556216aaa92ee8e3881803435d28c0ed0))
+
+
 <a name="v1.0.6"></a>
 ## [v1.0.6](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.0.5...v1.0.6) (2019-05-30)
 
