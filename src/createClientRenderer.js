@@ -2,10 +2,12 @@ import { createBrowserHistory } from "history"
 
 /**
  * @description The entry point for the client-side bundle.
- * @param  {String} variable The variable to read to get the initial state from the DOM.
- * @param  {Function} createStore Creates the store object.
- * @param  {Function} render Renders the app, once the DOM is loaded.
- * @return {Object} The store used to create the app.
+ * @param {object} props
+ * @param {string} [props.variable=__STATE__] The DOM variable to read to get the state.
+ * @param {function} props.createStore The function to invoke to create the
+ * store.
+ * @param {function} props.render The function to invoke to create the output.
+ * @return {object} The store used to create the app.
  * @example
  * import { hydrate } from "react-dom"
  * import { createClientRenderer } from "@alexseitsinger/react-ssr"
@@ -13,10 +15,13 @@ import { createBrowserHistory } from "history"
  * import createStore from "./store"
  * import composed from "./composed"
  *
- * export const store = createClientRenderer(createStore, (store, history) => {
- *   const app = composed({ store, history })
- *   const mountPoint = document.getElementsByTagName("main")[0]
- *   hydrate(app, mountPoint)
+ * export const store = createClientRenderer({
+ *   createStore,
+ *   render: (store, history) => {
+ *     const app = composed({ store, history })
+ *     const mountPoint = document.getElementsByTagName("main")[0]
+ *     hydrate(app, mountPoint)
+ *   },
  * })
  */
 export function createClientRenderer({
