@@ -1,5 +1,12 @@
+<a name="v1.1.2"></a>
+## [v1.1.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.1...v1.1.2)
+
+
 <a name="v1.1.1"></a>
-## [v1.1.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.0...v1.1.1)
+## [v1.1.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.0...v1.1.1) (2019-06-19)
+
+### Bug Fixes
+- Fixes incorrect error stack log message. ([edd77e8](https://github.com/alexseitsinger/react-ssr-frontend/commit/edd77e86379451f53374728065ce19253fa2a476))
 
 
 <a name="v1.1.0"></a>
