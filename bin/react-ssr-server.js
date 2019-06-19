@@ -189,7 +189,7 @@ function getBundle(callback) {
     if (bundle) {
       return
     }
-    
+
     const rel = path.relative(root, bundlePath)
     const result = {
       paths: {
@@ -229,7 +229,7 @@ function getBundle(callback) {
     const bits = [
       `Failed to load bundle. (${result.paths.relative})`,
       `${result.error.name} - ${result.error.message}`,
-      result.error.stack ? result.error.stack.join("\n") : "",
+      result.error.stack ? result.error.stack : "",
     ]
     logMessage(bits)
   })
@@ -314,12 +314,12 @@ function readFile(target, callback) {
     if(!exists) {
       return callback(true, null)
     }
-    
+
     fs.readFile(target, "utf8", (err, data) => {
       if (err) {
         return callback(true, null)
       }
-      
+
       callback(null, data)
     })
   })
