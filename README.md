@@ -18,13 +18,11 @@ The entry point for the client-side bundle.
 
 ### Parameters
 
--   `$0` **[Object][10]** 
-    -   `$0.variable`   (optional, default `"__STATE__"`)
-    -   `$0.createStore`  
-    -   `$0.render`  
--   `variable` **[String][11]** The variable to read to get the initial state from the DOM.
--   `createStore` **[Function][12]** Creates the store object.
--   `render` **[Function][12]** Renders the app, once the DOM is loaded.
+-   `props` **[object][10]** 
+    -   `props.variable` **[string][11]** The DOM variable to read to get the state. (optional, default `__STATE__`)
+    -   `props.createStore` **[function][12]** The function to invoke to create the
+        store.
+    -   `props.render` **[function][12]** The function to invoke to create the output.
 
 ### Examples
 
@@ -35,14 +33,17 @@ import { createClientRenderer } from "@alexseitsinger/react-ssr"
 import createStore from "./store"
 import composed from "./composed"
 
-export const store = createClientRenderer(createStore, (store, history) => {
-  const app = composed({ store, history })
-  const mountPoint = document.getElementsByTagName("main")[0]
-  hydrate(app, mountPoint)
+export const store = createClientRenderer({
+  createStore,
+  render: (store, history) => {
+    const app = composed({ store, history })
+    const mountPoint = document.getElementsByTagName("main")[0]
+    hydrate(app, mountPoint)
+  },
 })
 ```
 
-Returns **[Object][10]** The store used to create the app.
+Returns **[object][10]** The store used to create the app.
 
 ## createServerRenderer
 
@@ -50,11 +51,11 @@ The entry point for the server-side bundle.
 
 ### Parameters
 
--   `$0` **[Object][10]** 
-    -   `$0.createStore`  
-    -   `$0.render`  
--   `createStore` **[Function][12]** Creates the store object.
--   `render` **[Function][12]** Creates the rendered app output.
+-   `props` **[object][10]** 
+    -   `props.createStore` **[function][12]** The function to invoke to create the
+        store.
+    -   `props.render` **[function][12]** The function to invoke to render the
+        server-side bundle output.
 
 ### Examples
 
@@ -65,15 +66,18 @@ import { createServerRenderer } from "@alexseitsinger/react-ssr"
 import createStore from "./store"
 import composed from "./composed"
 
-export default createServerRenderer(createStore, (request, response, store, history) => {
-  const app = composed({ store, history })
-  const html = renderToString(app)
-  const state = store.getState()
-  response({ html, state })
+export default createServerRenderer({
+  createStore,
+  render: (request, response, store, history) => {
+    const app = composed({ store, history })
+    const html = renderToString(app)
+    const state = store.getState()
+    response({ html, state })
+  },
 })
 ```
 
-Returns **[Function][12]** Takes arugments (request, response). When invoked, will either run the render or the callback.
+Returns **[function][12]** Takes arugments (request, response). When invoked, will either run the render or the callback.
 
 ## composer
 
@@ -81,7 +85,7 @@ Wraps the app in a function. This wraooer takes the arguments store, and history
 
 ### Parameters
 
--   `App` **[Object][10]** The component to wrap.
+-   `App` **[object][10]** The component to wrap.
 
 ### Examples
 
@@ -94,7 +98,7 @@ import App from "./app"
 export default composer(App)
 ```
 
-Returns **[Function][12]** Takes the arguments (store, history, ...rest). Returns the app using these as props.
+Returns **[function][12]** Takes the arguments (store, history, ...rest). Returns the app using these as props.
 
 [1]: #createclientrenderer
 
