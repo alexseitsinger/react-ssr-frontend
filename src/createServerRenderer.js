@@ -15,11 +15,14 @@ import { createMemoryHistory } from "history"
  * import createStore from "./store"
  * import composed from "./composed"
  *
- * export default createServerRenderer(createStore, (request, response, store, history) => {
- *   const app = composed({ store, history })
- *   const html = renderToString(app)
- *   const state = store.getState()
- *   response({ html, state })
+ * export default createServerRenderer({
+ *   createStore,
+ *   render: (request, response, store, history) => {
+ *     const app = composed({ store, history })
+ *     const html = renderToString(app)
+ *     const state = store.getState()
+ *     response({ html, state })
+ *   },
  * })
  */
 export function createServerRenderer({ createStore, render }) {
