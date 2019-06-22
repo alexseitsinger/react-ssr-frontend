@@ -5,7 +5,8 @@
     "url": "https://www.alexseitsinger.com"
   },
   "bin": {
-    "react-ssr-server": "./bin/react-ssr-server.js"
+    "react-ssr-server": "./bin/react-ssr-server.js",
+    "react-ssr-servers": "./bin/react-ssr-servers.js"
   },
   "dependencies": {
     "@babel/runtime-corejs3": "7.4.5",
