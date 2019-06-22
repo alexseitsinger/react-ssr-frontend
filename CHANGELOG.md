@@ -1,5 +1,8 @@
-<a name="v1.1.2"></a>
-## [v1.1.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.1...v1.1.2)
+<a name="v1.2.0"></a>
+## [v1.2.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.1...v1.2.0) (2019-06-22)
+
+### Features
+- Adds script to start all servers. ([c937ef2](https://github.com/alexseitsinger/react-ssr-frontend/commit/c937ef2a2f7f2347e4d45998730e54aa6c8401ac))
 
 
 <a name="v1.1.1"></a>
