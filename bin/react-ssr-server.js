@@ -233,7 +233,7 @@ function getBundle(callback) {
     ]
     logMessage(bits)
   })
-  callback(true, null)
+  callback(failed[failed.length - 1], null)
 }
 
 // Returns true if the header exists and it matches the key specified.
@@ -343,8 +343,8 @@ function renderResponse(req, res) {
     return res.status(400).end()
   }
   getBundle((err, render) => {
-    if(err){
-      return res.status(500).end()
+    if (err) {
+      return res.json({ error: err }).status(500).end()
     }
     render(req, context => {
       res.json(context)
