@@ -1,13 +1,19 @@
 import { createBrowserHistory } from "history"
 
 /**
- * @description The entry point for the client-side bundle.
+ * The entry point for the client-side bundle.
+ *
  * @param {object} props
- * @param {string} [props.variable=__STATE__] The DOM variable to read to get the state.
- * @param {function} props.createStore The function to invoke to create the
- * store.
- * @param {function} props.render The function to invoke to create the output.
- * @return {object} The store used to create the app.
+ * @param {string} [props.variable=__STATE__]
+ * The DOM variable to read to get the state.
+ * @param {function} props.createStore
+ * The function to invoke to create the store.
+ * @param {function} props.render
+ * The function to invoke to create the output.
+ *
+ * @return {object}
+ * The store used to create the app.
+ *
  * @example
  * import { hydrate } from "react-dom"
  * import { createClientRenderer } from "@alexseitsinger/react-ssr"
