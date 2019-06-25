@@ -121,6 +121,13 @@ const {
   ignoredFiles,
 } = yargs.argv
 
+const isDevelopment = Boolean(
+  process &&
+  process.env &&
+  process.env.NODE_ENV &&
+  process.env.NODE_ENV === "development"
+)
+
 // The project root
 const root = path.resolve(".")
 
@@ -153,14 +160,6 @@ function logMessage(lines) {
   const rest = lines.map(line => `  ${line}`)
   const final = ([first].concat(rest)).join("\n")
   console.log(final)
-}
-
-function getErrorMessage(err) {
-  return [
-    `${err.name}: ${err.message}`,
-    " ",
-    err.stack ? err.stack : "",
-  ].join("\n")
 }
 
 function isFunction(f) {
@@ -311,10 +310,9 @@ function readFile(target, callback) {
   }
 
   fs.exists(target, exists => {
-    if(!exists) {
+    if (!exists) {
       return callback(true, null)
     }
-
     fs.readFile(target, "utf8", (err, data) => {
       if (err) {
         return callback(true, null)
