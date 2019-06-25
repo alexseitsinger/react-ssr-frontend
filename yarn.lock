@@ -2,10 +2,27 @@
 # yarn lockfile v1
 
 
-"@alexseitsinger/eslint-config@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config/-/eslint-config-0.5.0.tgz#31d5c3d0ddab19f7f596510fd6ae30eb191b65ac"
-  integrity sha512-QBZ1jcGYIjE7dUn0xUsiyWmg3fQtwMq1XHWAzEGj9ULU5VxIxPyb51vRlmOPq56AOGI7S0r9AbNbIZbXEOIysg==
+"@alexseitsinger/eslint-config-base@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-base/-/eslint-config-base-0.1.3.tgz#c5a59c7c7bd020222f33220d4c02df4874a0f552"
+  integrity sha512-5lubG/FJFF3sqVJEfijznEy6w7LBOTE3DkYMwuDVx2PFDHexoaIEF2g9d9wfZw0DAsNQbXynd6Jddb+GPtI0Pg==
+  dependencies:
+    confusing-browser-globals "^1.0.7"
+  optionalDependencies:
+    eslint-import-resolver-webpack "^0.11.1"
+
+"@alexseitsinger/eslint-config-react@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-react/-/eslint-config-react-0.1.0.tgz#5f735f6d2f0109a1b254b7422303a9e52b2d26b2"
+  integrity sha512-suHOuyAQLYDykcSdA2m9lvkagpkNj379mjD08O+k/UGJsWtbAeTTb87Dz6k1Okadeg9oXOsqI3kngavnbgUW9w==
+
+"@alexseitsinger/eslint-config@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config/-/eslint-config-0.10.0.tgz#95a4d5ef87e1b89c0100299984986d74075a7a02"
+  integrity sha512-uBx6ma9a2rhHdgXEYQa2mRxSUpr6Lj0Nj9BRMlGaSfkpUL4uAS3w9XxmIz8FIJnvet/gikm2CA2edHh+XK9UKA==
+  dependencies:
+    "@alexseitsinger/eslint-config-base" "^0.1.3"
+    "@alexseitsinger/eslint-config-react" "^0.1.0"
 
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
@@ -688,7 +705,7 @@
     "@babel/plugin-transform-react-jsx-self" "^7.0.0"
     "@babel/plugin-transform-react-jsx-source" "^7.0.0"
 
-"@babel/runtime-corejs3@^7.4.5":
+"@babel/runtime-corejs3@7.4.5":
   version "7.4.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.4.5.tgz#7df89702351c5fdc34b5555544fcf11b4ea7051c"
   integrity sha512-yxHpUObdpx4zbuLJOHIZkw43E4NbWGsGH+85kRUj+VEcdtjlqI0vDcAja9mwOHqD7/4vCZp69q6eztz/sFDibQ==
@@ -1463,6 +1480,11 @@ concat-stream@^1.5.0:
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
+confusing-browser-globals@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.7.tgz#5ae852bd541a910e7ffb2dbb864a2d21a36ad29b"
+  integrity sha512-cgHI1azax5ATrZ8rJ+ODDML9Fvu67PimB6aNxBrc/QwSaDaM9eTfIEUHx3bBLJJ82ioSb+/5zfsMCCEJax3ByQ==
+
 console-browserify@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/console-browserify/-/console-browserify-1.1.0.tgz#f0241c45730a9fc6323b206dbf38edc741d0bb10"
@@ -1894,7 +1916,7 @@ eslint-import-resolver-node@^0.3.2:
     debug "^2.6.9"
     resolve "^1.5.0"
 
-eslint-import-resolver-webpack@^0.11.1:
+eslint-import-resolver-webpack@0.11.1, eslint-import-resolver-webpack@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.11.1.tgz#fcf1fd57a775f51e18f442915f85dd6ba45d2f26"
   integrity sha512-eK3zR7xVQR/MaoBWwGuD+CULYVuqe5QFlDukman71aI6IboCGzggDUohHNfu1ZeBnbHcUHJc0ywWoXUBNB6qdg==
@@ -1918,7 +1940,7 @@ eslint-module-utils@^2.4.0:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
-eslint-plugin-import@^2.17.3:
+eslint-plugin-import@2.17.3:
   version "2.17.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.17.3.tgz#00548b4434c18faebaba04b24ae6198f280de189"
   integrity sha512-qeVf/UwXFJbeyLbxuY8RgqDyEKCkqV7YC+E5S5uOjAp4tOc8zj01JP3ucoBM8JcEqd1qRasJSg6LLlisirfy0Q==
@@ -1935,7 +1957,7 @@ eslint-plugin-import@^2.17.3:
     read-pkg-up "^2.0.0"
     resolve "^1.11.0"
 
-eslint-plugin-react@^7.13.0:
+eslint-plugin-react@7.13.0:
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.13.0.tgz#bc13fd7101de67996ea51b33873cd9dc2b7e5758"
   integrity sha512-uA5LrHylu8lW/eAH3bEQe9YdzpPaFd9yAJTwTi/i/BKTD7j6aQMKVAdGM/ML72zD6womuSK7EiGtMKuK06lWjQ==
@@ -1966,7 +1988,7 @@ eslint-visitor-keys@^1.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
   integrity sha512-qzm/XxIbxm/FHyH341ZrbnMUpe+5Bocte9xkmFMzPMjRaZMcXww+MpBptFvtU+79L362nqiLhekCxCxDPaUMBQ==
 
-eslint@^5.16.0:
+eslint@5.16.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.16.0.tgz#a1e3ac1aae4a3fbd8296fcf8f7ab7314cbb6abea"
   integrity sha512-S3Rz11i7c8AA5JPv7xAH+dOyq/Cu/VXHiHXBPOU1k/JAM5dXqQPt3qcrhpHSorXmrpu2g0gkIBVXAqCpzfoZIg==
@@ -4909,7 +4931,7 @@ webpack-cli@3.3.2:
     v8-compile-cache "^2.0.2"
     yargs "^12.0.5"
 
-webpack-node-externals@^1.7.2:
+webpack-node-externals@1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-1.7.2.tgz#6e1ee79ac67c070402ba700ef033a9b8d52ac4e3"
   integrity sha512-ajerHZ+BJKeCLviLUUmnyd5B4RavLF76uv3cs6KNuO8W+HuQaEs0y0L7o40NQxdPy5w0pcv8Ew7yPUAQG0UdCg==
