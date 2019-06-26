@@ -1,3 +1,10 @@
+<a name="v1.3.1"></a>
+## [v1.3.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.3.0...v1.3.1) (2019-06-26)
+
+### Bug Fixes
+- Passes original err in renderBundle. ([34c9cbe](https://github.com/alexseitsinger/react-ssr-frontend/commit/34c9cbe67386b1816a87454430a381c13f4366b5))
+
+
 <a name="v1.3.0"></a>
 ## [v1.3.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.2.0...v1.3.0) (2019-06-26)
 
