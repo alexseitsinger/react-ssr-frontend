@@ -1,28 +1,49 @@
 #!/usr/bin/env node
 
-const { exec } = require("child_process")
+const { spawn } = require("child_process")
 const fs = require("fs")
 
 const envFile = ".env"
 
-function runCommand(command) {
-  console.log(`Running: ${command}`)
+function spawnServer({ command, env = {} }) {
+  const args = command.split(" ")
+  const cmd = args.shift()
+  const proc = spawn(cmd, args, {
+    cwd: process.cwd(),
+    stdio: "inherit",
+    env: {
+      ...process.env,
+      ...env,
+    },
+  })
+}
 
+function getEnv(callback) {
   fs.exists(envFile, exists => {
-    var fullCommand = command
-    if(exists) {
-      fullCommand = `env $(cat ${envFile} | xargs) ${fullCommand}`
+    if (!exists) {
+      return callback({})
     }
-
-    // Invoke the command.
-    exec(fullCommand, (err, stdout, stderr) => {
+    fs.readFile(envFile, "utf-8", (err, data) => {
       if (err) {
-        console.log(`${err.name}: ${err.message}\n\n${err.stack}`)
         return
       }
+      const lines = data.split("\n")
+      const env = {}
+      lines.forEach(line => {
+        const pair = line.split("=")
+        env[pair[0]] = pair[1]
+      })
+      callback(env)
+    })
+  })
+}
 
-      console.log(`stdout: ${stdout}`)
-      console.log(`stderr: ${stderr}`)
+function runCommand(command) {
+  console.log(`Running: ${command}`)
+  getEnv(env => {
+    spawnServer({
+      command,
+      env,
     })
   })
 }
@@ -34,3 +55,7 @@ const commands = [
 ]
 
 commands.forEach(runCommand)
+
+process.on("disconnect", () => {
+  process.exit()
+})
