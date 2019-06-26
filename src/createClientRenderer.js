@@ -18,8 +18,8 @@ import { createBrowserHistory } from "history"
  * import { hydrate } from "react-dom"
  * import { createClientRenderer } from "@alexseitsinger/react-ssr"
  *
- * import createStore from "./store"
- * import composed from "./composed"
+ * import { createStore } from "./store"
+ * import { composed } from "./composed"
  *
  * export const store = createClientRenderer({
  *   createStore,
