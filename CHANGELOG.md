@@ -1,3 +1,14 @@
+<a name="v1.3.0"></a>
+## [v1.3.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.2.0...v1.3.0) (2019-06-26)
+
+### Code Refactoring
+- Changes server starting script. ([25f56a0](https://github.com/alexseitsinger/react-ssr-frontend/commit/25f56a01aa3b10c85ba95c333980e7278283ddc3))
+
+### Features
+- Adds error message to renderBundle. ([8156e34](https://github.com/alexseitsinger/react-ssr-frontend/commit/8156e34713194ec01ee37ca38bd472c64cf15a0b))
+- Adds isDevelopment variable. ([2ba9247](https://github.com/alexseitsinger/react-ssr-frontend/commit/2ba92472dc1162ac6931f5e958c048e5a966a487))
+
+
 <a name="v1.2.0"></a>
 ## [v1.2.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.1.1...v1.2.0) (2019-06-22)
 
