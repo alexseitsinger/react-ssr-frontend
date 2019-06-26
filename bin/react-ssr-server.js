@@ -342,7 +342,7 @@ function renderResponse(req, res) {
   }
   getBundle((err, render) => {
     if (err) {
-      return res.json({ error: err }).status(500).end()
+      return res.json(err).status(500).end()
     }
     render(req, context => {
       res.json(context)
