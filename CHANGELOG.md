@@ -1,3 +1,10 @@
+<a name="v1.4.1"></a>
+## [v1.4.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.4.0...v1.4.1) (2019-08-01)
+
+### Bug Fixes
+- Fixes incorrect path being passed. ([890d251](https://github.com/alexseitsinger/react-ssr-frontend/commit/890d25192f81bba1924f4b17bcffd66a4245800e))
+
+
 <a name="v1.4.0"></a>
 ## [v1.4.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.3.1...v1.4.0) (2019-08-01)
 
