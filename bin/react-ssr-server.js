@@ -23,6 +23,11 @@ yargs
     default: "/render",
     string: true,
   })
+  .option("pagesPath", {
+    describe: "The path the pages components.",
+    default: "src/pages",
+    string: true,
+  })
   .option("stateUrl", {
     describe: "The url to use for getting default state.",
     default: "/state",
@@ -110,6 +115,7 @@ const {
   statsUrl,
   statsPath,
   statsFileName,
+  pagesPath,
   secretKey,
   secretKeyHeaderName,
   bundlePath,
@@ -318,18 +324,18 @@ function isOutsideRoot(target) {
   return Boolean(relative && relative.startsWith("..") && !path.isAbsolute(relative))
 }
 
-function getFirstExistingFile(paths, callback) {
+function getFirstExistingFile(filePaths, callback) {
   var found = false
 
-  paths.forEach(path => {
+  filePaths.forEach(filePath => {
     if (found === true) {
       return
     }
 
-    fs.exists(path, exists => {
+    fs.exists(filePath, exists => {
       if (exists) {
         found = true
-        callback(path)
+        callback(filePath)
       }
     })
   })
@@ -364,7 +370,7 @@ function readResponse(file, req, res) {
   }
 
   readFile(file, (err, data) => {
-    if(err) {
+    if (err) {
       res.status(404).end()
     }
 
@@ -444,12 +450,12 @@ app.get(`${stateUrl}/:reducerName`, (req, res) => {
   const { reducerName } = req.params
 
   const stateFilePaths = [
-    `./${statePath}/${reducerName}/${stateFileName}`,
-    `./pages/${reducerName}/reducer/${stateFileName}`,
-  ].map(path.resolve)
+    path.resolve(`./${statePath}/${reducerName}/${stateFileName}`),
+    path.resolve(`./${pagesPath}/${reducerName}/reducer/${stateFileName}`),
+  ]
 
-  getFirstExistingFile(stateFilePaths, path => {
-    readResponse(path, req, res)
+  getFirstExistingFile(stateFilePaths, existingPath => {
+    readResponse(existingPath, req, res)
   })
 })
 
