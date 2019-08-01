@@ -183,6 +183,7 @@ function getBundle(callback) {
   var bundle
   const succeeded = []
   const failed = []
+
   // Iterate over the bundlePaths we have, to find it.
   bundlePaths.forEach(bp => {
     if (bundle) {
@@ -207,6 +208,7 @@ function getBundle(callback) {
         message: e.message,
         stack: e.stack,
       }
+
       failed.push(result)
     }
   })
@@ -221,6 +223,7 @@ function getBundle(callback) {
         `Successfully loaded bundle. (${result.paths.relative})`,
       ])
     })
+
     return callback(null, bundle)
   }
 
@@ -232,6 +235,7 @@ function getBundle(callback) {
     ]
     logMessage(bits)
   })
+
   callback(failed[failed.length - 1], null)
 }
 
@@ -268,6 +272,35 @@ function isAllowedFile(target) {
   return allowed
 }
 
+function isPermittedFile(target) {
+  const ignoredFile = isIgnoredFile(target)
+  const outsideRoot = isOutsideRoot(target)
+  const directory = isDirectory(target)
+  const allowed = isAllowedFile(target)
+
+  if (ignoredFile || outsideRoot || directory || !allowed) {
+    const messages = []
+    const relative = path.relative(root, target)
+    if (ignoredFile) {
+      messages.push(`${relative} is an ignored file.`)
+    }
+    if (outsideRoot) {
+      messages.push(`${relative} is outside the root directory.`)
+    }
+    if (directory) {
+      messages.push(`${relative} is a directory.`)
+    }
+    if (!allowed) {
+      messages.push(`${relative} is not an allowed file.`)
+    }
+    logMessage(messages)
+    return false
+  }
+
+  return true
+}
+
+
 // Check if the target is a directory.
 function isDirectory(target) {
   try {
@@ -285,27 +318,27 @@ function isOutsideRoot(target) {
   return Boolean(relative && relative.startsWith("..") && !path.isAbsolute(relative))
 }
 
+function getFirstExistingFile(paths, callback) {
+  var found = false
+
+  paths.forEach(path => {
+    if (found === true) {
+      return
+    }
+
+    fs.exists(path, exists => {
+      if (exists) {
+        found = true
+        callback(path)
+      }
+    })
+  })
+}
+
 function readFile(target, callback) {
-  const ignoredFile = isIgnoredFile(target)
-  const outsideRoot = isOutsideRoot(target)
-  const directory = isDirectory(target)
-  const allowed = isAllowedFile(target)
-  if (ignoredFile || outsideRoot || directory || !allowed) {
-    const messages = ["Failed to read file."]
-    const relative = path.relative(root, target)
-    if (ignoredFile) {
-      messages.push(`${relative} is an ignored file.`)
-    }
-    if (outsideRoot) {
-      messages.push(`${relative} is outside the root directory.`)
-    }
-    if (directory) {
-      messages.push(`${relative} is a directory.`)
-    }
-    if (!allowed) {
-      messages.push(`${relative} is not an allowed file.`)
-    }
-    logMessage(messages)
+  const permitted = isPermittedFile(target)
+
+  if (permitted === false) {
     return callback(true, null)
   }
 
@@ -313,6 +346,7 @@ function readFile(target, callback) {
     if (!exists) {
       return callback(true, null)
     }
+
     fs.readFile(target, "utf8", (err, data) => {
       if (err) {
         return callback(true, null)
@@ -328,10 +362,12 @@ function readResponse(file, req, res) {
   if (!hasSecretKey(req)) {
     return res.status(400).end()
   }
+
   readFile(file, (err, data) => {
     if(err) {
       res.status(404).end()
     }
+
     res.json(JSON.parse(data))
   })
 }
@@ -340,10 +376,12 @@ function renderResponse(req, res) {
   if (!hasSecretKey(req)) {
     return res.status(400).end()
   }
+
   getBundle((err, render) => {
     if (err) {
       return res.json(err).status(500).end()
     }
+
     render(req, context => {
       res.json(context)
     })
@@ -352,13 +390,16 @@ function renderResponse(req, res) {
 
 function listen(app) {
   var afterMethod
+
   app.listen(port, address, () => {
     logMessage([`Server listening at http(s)://${address}:${port}`])
     if (after) {
       afterMethod = importDefault(after)
     }
+
     if (isFunction(afterMethod)) {
       const relative = path.relative(root, after)
+
       logMessage([`Running 'after' method. (${relative})`])
       afterMethod(app, address, port)
     }
@@ -370,11 +411,13 @@ function start(app) {
   logMessage([`Allowed files: ${allAllowedFiles.join(", ")}`])
   logMessage([`Allowed filetypes: ${allAllowedFiletypes.join(", ")}`])
   logMessage([`Ignored files: ${allIgnoredFiles.join(", ")}`])
+
   if (before) {
     beforeMethod = importDefault(before)
   }
   if (isFunction(beforeMethod)) {
     const relative = path.relative(root, before)
+
     logMessage([`Running 'before' method. (${relative})`])
     beforeMethod(app, listen)
   }
@@ -395,11 +438,19 @@ app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
   readResponse(file, req, res)
 })
 
+
 // Returns the json data for the default state of a reducer.
 app.get(`${stateUrl}/:reducerName`, (req, res) => {
   const { reducerName } = req.params
-  const file = path.resolve(`./${statePath}/${reducerName}/${stateFileName}`)
-  readResponse(file, req, res)
+
+  const stateFilePaths = [
+    `./${statePath}/${reducerName}/${stateFileName}`,
+    `./pages/${reducerName}/reducer/${stateFileName}`,
+  ].map(path.resolve)
+
+  getFirstExistingFile(stateFilePaths, path => {
+    readResponse(path, req, res)
+  })
 })
 
 // Returns the rendered react component data.
