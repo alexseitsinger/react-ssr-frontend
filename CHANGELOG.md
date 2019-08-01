@@ -1,3 +1,10 @@
+<a name="v1.4.0"></a>
+## [v1.4.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.3.1...v1.4.0) (2019-08-01)
+
+### Features
+- Tries two paths to read default state. ([94b9e55](https://github.com/alexseitsinger/react-ssr-frontend/commit/94b9e55023b5dc2a4ff56ec8e85046ba8789b457))
+
+
 <a name="v1.3.1"></a>
 ## [v1.3.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.3.0...v1.3.1) (2019-06-26)
 
