@@ -327,9 +327,9 @@ function renderResponse(req, res) {
         return
       }
 
-      logMessage([`Successfully imported bundle. (${rel})`])
-
       const rel = path.relative(root, bundlePathFound)
+
+      logMessage([`Successfully imported bundle. (${rel})`])
 
       const renderBundle = require(bundlePathFound).default
 
