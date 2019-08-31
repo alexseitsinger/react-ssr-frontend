@@ -43,10 +43,7 @@ export const createClientRenderer = ({
   const clientRenderer = () => render(store, history)
 
   if (document.readyState === "loading") {
-    document.addEventListener(DOM_LOADED, function domLoadedHandler(e){
-      clientRenderer()
-      document.removeEventListener(DOM_LOADED, domLoadedHandler)
-    }, false)
+    document.addEventListener(DOM_LOADED, clientRenderer)
   }
 
   return store
