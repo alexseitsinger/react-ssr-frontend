@@ -127,13 +127,6 @@ const {
   ignoredFiles,
 } = yargs.argv
 
-const isDevelopment = Boolean(
-  process &&
-  process.env &&
-  process.env.NODE_ENV &&
-  process.env.NODE_ENV === "development"
-)
-
 // The project root
 const root = path.resolve(".")
 
@@ -182,67 +175,6 @@ function importDefault(pathToModule) {
       `${e.name}: ${e.message}`,
     ])
   }
-}
-
-function getBundle(callback) {
-  // store the bundle here.
-  var bundle
-  const succeeded = []
-  const failed = []
-
-  // Iterate over the bundlePaths we have, to find it.
-  bundlePaths.forEach(bp => {
-    if (bundle) {
-      return
-    }
-
-    const rel = path.relative(root, bundlePath)
-    const result = {
-      paths: {
-        absolute: bp,
-        relative: rel,
-      },
-    }
-
-    try {
-      bundle = require(bp).default
-      succeeded.push(result)
-    }
-    catch (e) {
-      result.error = {
-        name: e.name,
-        message: e.message,
-        stack: e.stack,
-      }
-
-      failed.push(result)
-    }
-  })
-
-  /**
-   * If we get a bundle, run the callback with it.
-   * Oterhwise, invoke the errback.
-   */
-  if (bundle) {
-    succeeded.forEach(result => {
-      logMessage([
-        `Successfully loaded bundle. (${result.paths.relative})`,
-      ])
-    })
-
-    return callback(null, bundle)
-  }
-
-  failed.forEach(result => {
-    const bits = [
-      `Failed to load bundle. (${result.paths.relative})`,
-      `${result.error.name} - ${result.error.message}`,
-      result.error.stack ? result.error.stack : "",
-    ]
-    logMessage(bits)
-  })
-
-  callback(failed[failed.length - 1], null)
 }
 
 // Returns true if the header exists and it matches the key specified.
@@ -331,28 +263,32 @@ function getFirstExistingFile(filePaths, callback) {
     if (found === true) {
       return
     }
-
-    fs.exists(filePath, exists => {
-      if (exists) {
-        found = true
-        callback(filePath)
+    onFileExists(filePath, existingPath => {
+      if (found === true) {
+        return
       }
+
+      found = true
+      callback(existingPath)
     })
+  })
+}
+
+function onFileExists(target, callback) {
+  fs.exists(target, exists => {
+    if (exists) {
+      callback(target)
+    }
   })
 }
 
 function readFile(target, callback) {
   const permitted = isPermittedFile(target)
-
   if (permitted === false) {
     return callback(true, null)
   }
 
-  fs.exists(target, exists => {
-    if (!exists) {
-      return callback(true, null)
-    }
-
+  onFileExists(target, () => {
     fs.readFile(target, "utf8", (err, data) => {
       if (err) {
         return callback(true, null)
@@ -379,17 +315,29 @@ function readResponse(file, req, res) {
 }
 
 function renderResponse(req, res) {
+  var isRendered = false
+
   if (!hasSecretKey(req)) {
     return res.status(400).end()
   }
 
-  getBundle((err, render) => {
-    if (err) {
-      return res.json(err).status(500).end()
-    }
+  bundlePaths.forEach(bp => {
+    onFileExists(bp, bundlePathFound => {
+      if (isRendered === true) {
+        return
+      }
 
-    render(req, context => {
-      res.json(context)
+      logMessage([`Successfully imported bundle. (${rel})`])
+
+      const rel = path.relative(root, bundlePathFound)
+
+      const renderBundle = require(bundlePathFound).default
+
+      renderBundle(req, context => {
+        logMessage([`Successfully rendered bundle. (${rel})`])
+        res.json(context)
+        isRendered = true
+      })
     })
   })
 }
