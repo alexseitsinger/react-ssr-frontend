@@ -11,9 +11,7 @@ import React from "react"
  *
  * @example
  * import { prepared } from "@alexseitsinger/react-ssr"
- *
  * import { App } from "./app"
- *
  * export default prepared(App)
  */
 export const prepare = App => ({ store, history, ...rest }) => (
