@@ -1,11 +1,13 @@
 import { createBrowserHistory } from "history"
 
+const DOM_LOADED = "DOMContentLoaded"
+
 /**
  * The entry point for the client-side bundle.
  *
  * @param {object} props
- * @param {string} [props.variable=__STATE__]
- * The DOM variable to read to get the state.
+ * @param {function} props.getInitialState
+ * The function to use to get the initial state from the server.
  * @param {function} props.createStore
  * The function to invoke to create the store.
  * @param {function} props.render
@@ -19,47 +21,33 @@ import { createBrowserHistory } from "history"
  * import { createClientRenderer } from "@alexseitsinger/react-ssr"
  *
  * import { createStore } from "./store"
- * import { composed } from "./composed"
+ * import { PreparedApp } from "./app"
  *
  * export const store = createClientRenderer({
  *   createStore,
  *   render: (store, history) => {
- *     const app = composed({ store, history })
+ *     const app = PreparedApp({ store, history })
  *     const mountPoint = document.getElementsByTagName("main")[0]
  *     hydrate(app, mountPoint)
  *   },
  * })
  */
-export function createClientRenderer({
-  variable = "__STATE__",
+export const createClientRenderer = ({
+  getInitialState,
   createStore,
   render,
-}) {
-  // Create the store from the DOM.
-  const initialState = window[variable]
-
-  // Allow the state to be garbage collected.
-  delete window[variable]
-
-  // Create a history entry for the client.
+}) => {
   const history = createBrowserHistory()
+  const store = createStore(history, getInitialState())
 
-  // Create the store to use.
-  const store = createStore(history, initialState)
+  const clientRenderer = () => render(store, history)
 
-  // Create a function to invoke when the DOM is ready.
-  function clientRenderer() {
-    render(store, history)
-  }
-
-  // When the DOM is ready, invoke the initializer.
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", clientRenderer)
-  }
-  else {
-    clientRenderer()
+    document.addEventListener(DOM_LOADED, function domLoadedHandler(e){
+      clientRenderer()
+      document.removeEventListener(DOM_LOADED, domLoadedHandler)
+    }, false)
   }
 
-  // Return the client-side store for use elesewhere.
   return store
 }

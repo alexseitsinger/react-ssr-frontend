@@ -31,34 +31,48 @@ import { createMemoryHistory } from "history"
  *   },
  * })
  */
-export function createServerRenderer({ createStore, render }) {
-  function serverRenderer(request, response) {
-    try {
-      const { url, initialState } = request.body
+export const createServerRenderer = ({ createStore, render }) => (request, response) => {
+  try {
+    const { url, initialState } = request.body
 
-      // Create a history entry based on the URL of the requested page.
-      const history = createMemoryHistory({
-        initialEntries: [url],
-        initialIndex: 0,
-      })
+    // Create a history entry based on the URL of the requested page.
+    const history = createMemoryHistory({
+      initialEntries: [url],
+      initialIndex: 0,
+    })
 
-      // Create the store to use for the render.
-      const store = createStore(history, initialState)
+    // Create the store to use for the render.
+    const store = createStore(history, initialState)
 
-      // Render the component.
-      render(request, response, store, history)
+    // Render the component.
+    var responseCalled = false
+    const handleResponse = (...args) => {
+      responseCalled = true
+      response(...args)
     }
-    catch (e) {
-      // Return an error object to django.
-      response({
-        error: {
-          type: e.constructor.name,
-          message: e.message,
-          stack: e.stack,
-        },
-      })
+    const result = render(store, history, request, handleResponse)
+    if (responseCalled === false) {
+      if (result) {
+        response(result)
+      }
+      else {
+        response({
+          error: {
+            type: "ServerRenderedNothing",
+            message: "The server returned nothing.",
+          },
+        })
+      }
     }
   }
-
-  return serverRenderer
+  catch (e) {
+    // Return an error object to django.
+    response({
+      error: {
+        type: e.constructor.name,
+        message: e.message,
+        stack: e.stack,
+      },
+    })
+  }
 }
