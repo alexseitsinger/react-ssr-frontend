@@ -58,5 +58,5 @@
     "build": "./node_modules/.bin/webpack",
     "test": "./node_modules/.bin/jest"
   },
-  "version": "1.4.1"
+  "version": "1.5.0"
 }
