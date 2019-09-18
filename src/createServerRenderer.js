@@ -1,3 +1,4 @@
+import React from "react"
 import { createMemoryHistory } from "history"
 
 /**
@@ -31,7 +32,7 @@ import { createMemoryHistory } from "history"
  *   },
  * })
  */
-export const createServerRenderer = ({ createStore, render }) => (request, response) => {
+export const createServerRenderer = ({ App, createStore, render }) => (request, response) => {
   try {
     const { url, initialState } = request.body
 
@@ -50,7 +51,10 @@ export const createServerRenderer = ({ createStore, render }) => (request, respo
       responseCalled = true
       response(...args)
     }
-    const result = render(store, history, request, handleResponse)
+
+    const PreparedApp = props => <App store={store} history={history} {...props} />
+    const result = render(PreparedApp, store, history, request, handleResponse)
+
     if (responseCalled === false) {
       if (result) {
         response(result)

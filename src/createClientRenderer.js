@@ -1,3 +1,4 @@
+import React from "react"
 import { createBrowserHistory } from "history"
 
 const DOM_LOADED = "DOMContentLoaded"
@@ -33,6 +34,7 @@ const DOM_LOADED = "DOMContentLoaded"
  * })
  */
 export const createClientRenderer = ({
+  App,
   getInitialState,
   createStore,
   render,
@@ -40,7 +42,8 @@ export const createClientRenderer = ({
   const history = createBrowserHistory()
   const store = createStore(history, getInitialState())
 
-  const clientRenderer = () => render(store, history)
+  const PreparedApp = props => <App store={store} history={history} {...props} />
+  const clientRenderer = () => render(PreparedApp, store, history)
 
   if (document.readyState === "loading") {
     document.addEventListener(DOM_LOADED, clientRenderer)
