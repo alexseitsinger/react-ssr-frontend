@@ -1,8 +1,7 @@
 {
   "author": {
     "email": "software@alexseitsinger.com",
-    "name": "Alex Seitsinger",
-    "url": "https://www.alexseitsinger.com"
+    "name": "Alex Seitsinger"
   },
   "bin": {
     "react-ssr-server": "./bin/react-ssr-server.js",
@@ -18,7 +17,8 @@
   },
   "description": "Front-end service for server-side rendering react apps.",
   "devDependencies": {
-    "@alexseitsinger/eslint-config": "^0.10.0",
+    "@alexseitsinger/eslint-config-base": "^0.4.0",
+    "@alexseitsinger/eslint-config-react": "^0.1.0",
     "@babel/core": "7.6.0",
     "@babel/plugin-proposal-export-default-from": "7.5.2",
     "@babel/plugin-proposal-export-namespace-from": "7.5.2",
@@ -43,7 +43,7 @@
     "package.json",
     "README.md"
   ],
-  "homepage": "https://www.alexseitsinger.com/packages/node/react-ssr-frontend",
+  "homepage": "https://github.com/alexseitsinger/react-ssr-frontend",
   "license": "BSD-2-Clause",
   "main": "dist/main.js",
   "name": "@alexseitsinger/react-ssr",

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@alexseitsinger/eslint-config-base@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-base/-/eslint-config-base-0.1.3.tgz#c5a59c7c7bd020222f33220d4c02df4874a0f552"
-  integrity sha512-5lubG/FJFF3sqVJEfijznEy6w7LBOTE3DkYMwuDVx2PFDHexoaIEF2g9d9wfZw0DAsNQbXynd6Jddb+GPtI0Pg==
+"@alexseitsinger/eslint-config-base@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-base/-/eslint-config-base-0.4.0.tgz#534dd02c6dc0884f98cbc19f986d194486d53e92"
+  integrity sha512-4kqNvFgt08Aoid8Qy3KWI9vBnE6jg9CdrzQuaWkRHWJ8rvyJbW3ApkKZpNCIEZYSpFjTDxG1Pe3gkcVjcADXNQ==
   dependencies:
     confusing-browser-globals "^1.0.7"
   optionalDependencies:
@@ -15,14 +15,6 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config-react/-/eslint-config-react-0.1.0.tgz#5f735f6d2f0109a1b254b7422303a9e52b2d26b2"
   integrity sha512-suHOuyAQLYDykcSdA2m9lvkagpkNj379mjD08O+k/UGJsWtbAeTTb87Dz6k1Okadeg9oXOsqI3kngavnbgUW9w==
-
-"@alexseitsinger/eslint-config@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@alexseitsinger/eslint-config/-/eslint-config-0.10.0.tgz#95a4d5ef87e1b89c0100299984986d74075a7a02"
-  integrity sha512-uBx6ma9a2rhHdgXEYQa2mRxSUpr6Lj0Nj9BRMlGaSfkpUL4uAS3w9XxmIz8FIJnvet/gikm2CA2edHh+XK9UKA==
-  dependencies:
-    "@alexseitsinger/eslint-config-base" "^0.1.3"
-    "@alexseitsinger/eslint-config-react" "^0.1.0"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.5.5":
   version "7.5.5"
