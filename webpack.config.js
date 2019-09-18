@@ -20,11 +20,13 @@ module.exports = {
     ],
   },
   externals: [
+    /**
     nodeExternals({
       modulesFromFile: {
         exclude: ["dependencies"],
         include: ["peerDependencies", "devDependencies", "optionalDependencies"],
       },
     }),
+    */
   ],
 }
