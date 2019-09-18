@@ -45,29 +45,9 @@ export const createServerRenderer = ({ App, createStore, render }) => (request, 
     // Create the store to use for the render.
     const store = createStore(history, initialState)
 
-    // Render the component.
-    var responseCalled = false
-    const handleResponse = (...args) => {
-      responseCalled = true
-      response(...args)
-    }
-
+    // Render the response
     const PreparedApp = props => <App store={store} history={history} {...props} />
-    const result = render(PreparedApp, store, history, request, handleResponse)
-
-    if (responseCalled === false) {
-      if (result) {
-        response(result)
-      }
-      else {
-        response({
-          error: {
-            type: "ServerRenderedNothing",
-            message: "The server returned nothing.",
-          },
-        })
-      }
-    }
+    render(PreparedApp, store, history, request, response)
   }
   catch (e) {
     // Return an error object to django.
