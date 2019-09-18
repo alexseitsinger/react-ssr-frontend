@@ -1,3 +1,17 @@
+<a name="v1.5.0"></a>
+## [v1.5.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.4.1...v1.5.0) (2019-09-18)
+
+### Bug Fixes
+- Fixes missing var. ([1774aa3](https://github.com/alexseitsinger/react-ssr-frontend/commit/1774aa3e8ffaf85326f4a5d6aa57c530054e7ef3))
+
+### Code Refactoring
+- Changes render. ([a104641](https://github.com/alexseitsinger/react-ssr-frontend/commit/a104641b867b72f75a7565fbf656fde857290359))
+- Removes eventListener remover. ([527d2ef](https://github.com/alexseitsinger/react-ssr-frontend/commit/527d2ef9b2c4979fc6217a7970491f43c847323d))
+- Renamed composer to prepare. ([5ab0b67](https://github.com/alexseitsinger/react-ssr-frontend/commit/5ab0b67041b7a6d00f52d779599f4a573a575788))
+- Updates bin script. ([86fe1c7](https://github.com/alexseitsinger/react-ssr-frontend/commit/86fe1c7b8fb47f0cb4d1263f98e25f858e1d3d9a))
+- Updates renderers. ([d7c65e3](https://github.com/alexseitsinger/react-ssr-frontend/commit/d7c65e38ea8cd04a3aa6e368c66e280f93502421))
+
+
 <a name="v1.4.1"></a>
 ## [v1.4.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.4.0...v1.4.1) (2019-08-01)
 
