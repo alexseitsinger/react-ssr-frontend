@@ -1,3 +1,11 @@
+<a name="v1.6.0"></a>
+## [v1.6.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.5.0...v1.6.0) (2019-09-27)
+
+### Code Refactoring
+- Changes script. ([dc308d3](https://github.com/alexseitsinger/react-ssr-frontend/commit/dc308d39b2a0630d408a63df48f4b34953e0c62f))
+- Removes returnable responses. ([666476b](https://github.com/alexseitsinger/react-ssr-frontend/commit/666476bf9446fdbf3dd4ddf57e0359ffc5dd6f13))
+
+
 <a name="v1.5.0"></a>
 ## [v1.5.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.4.1...v1.5.0) (2019-09-18)
 
