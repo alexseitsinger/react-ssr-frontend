@@ -8,7 +8,8 @@ const envFile = ".env"
 function spawnServer({ command, env = {} }) {
   const args = command.split(" ")
   const cmd = args.shift()
-  const proc = spawn(cmd, args, {
+
+  spawn(cmd, args, {
     cwd: process.cwd(),
     stdio: "inherit",
     env: {
@@ -40,18 +41,14 @@ function getEnv(callback) {
 
 function runCommand(command) {
   console.log(`Running: ${command}`)
-  getEnv(env => {
-    spawnServer({
-      command,
-      env,
-    })
-  })
+
+  getEnv(env => spawnServer({ command, env }))
 }
 
 const commands = [
+  "yarn run start:render:development",
+  "yarn run start:client:development",
   "yarn run start:server:development",
-  "yarn run watch:server:development",
-  "yarn run watch:client:development",
 ]
 
 commands.forEach(runCommand)
