@@ -5,7 +5,7 @@ const fs = require("fs")
 
 const envFile = ".env"
 
-function spawnServer({ command, env = {} }) {
+function spawnProcess({ command, env = {} }) {
   const args = command.split(" ")
   const cmd = args.shift()
 
@@ -42,7 +42,7 @@ function getEnv(callback) {
 function runCommand(command) {
   console.log(`Running: ${command}`)
 
-  getEnv(env => spawnServer({ command, env }))
+  getEnv(env => spawnProcess({ command, env }))
 }
 
 const commands = [
