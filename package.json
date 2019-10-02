@@ -38,24 +38,30 @@
     "webpack-node-externals": "1.7.2"
   },
   "files": [
-    "bin/",
-    "dist/",
+    "index.js",
+    "bin/react-ssr-server.js",
+    "bin/react-ssr-servers.js",
+    "dist/main.js",
+    "dist/main.dev.js",
+    "dist/main.dev.js.map",
     "package.json",
     "README.md"
   ],
   "homepage": "https://github.com/alexseitsinger/react-ssr-frontend",
   "license": "BSD-2-Clause",
-  "main": "dist/main.js",
+  "main": "index.js",
   "name": "@alexseitsinger/react-ssr",
   "peerDependencies": {
-    "react": "^16.8.6"
+    "react": "^16.9.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/alexseitsinger/react-ssr-frontend.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack",
+    "build": "yarn run build:development && yarn run build:production",
+    "build:development": "./node_modules/.bin/webpack --config=./webpack.config.dev.js",
+    "build:production": "./node_modules/.bin/webpack --config=./webpack.config.js",
     "test": "./node_modules/.bin/jest"
   },
   "version": "1.6.1"
