@@ -13,6 +13,7 @@
     "core-js": "3.2.1",
     "express": "4.17.1",
     "history": "4.10.1",
+    "underscore": "^1.9.1",
     "yargs": "14.0.0"
   },
   "description": "Front-end service for server-side rendering react apps.",
