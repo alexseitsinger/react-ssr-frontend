@@ -388,8 +388,12 @@ app.use(bodyParser.json({ limit: "10mb" }))
 // Return the webpack stats for the agent/environment
 app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
   const { agentName, environmentName } = req.params
-  const file = path.resolve(`./${statsPath}/${statsFileName}.${agentName}.${environmentName}.json`)
-  readResponse(file, req, res)
+
+  const fileName = `${statsFileName}.${agentName}.${environmentName}.json`
+  const relFilePath = `${statsPath}/${fileName}`
+  const absFilePath = path.resolve(`./${relFilePath}`)
+
+  readResponse(absFilePath, req, res)
 })
 
 
