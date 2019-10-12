@@ -1,3 +1,10 @@
+<a name="v1.8.0"></a>
+## [v1.8.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.7.0...v1.8.0) (2019-10-12)
+
+### Code Refactoring
+- Changes perms. ([3c6f0e7](https://github.com/alexseitsinger/react-ssr-frontend/commit/3c6f0e78c803a521c2f77e4c37ada0bbce0869ea))
+
+
 <a name="v1.7.0"></a>
 ## [v1.7.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.6.1...v1.7.0) (2019-10-12)
 
