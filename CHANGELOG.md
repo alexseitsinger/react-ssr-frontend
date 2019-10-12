@@ -1,3 +1,23 @@
+<a name="v1.7.0"></a>
+## [v1.7.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.6.1...v1.7.0) (2019-10-12)
+
+### Code Refactoring
+- Changes package entry point. ([3156e13](https://github.com/alexseitsinger/react-ssr-frontend/commit/3156e1330420b9e38ca1c97e2b6e36dfce27107d))
+- Cleans up server call. ([d09f89f](https://github.com/alexseitsinger/react-ssr-frontend/commit/d09f89f2c13d073e3c318bcbf530d14a7b536721))
+- Removes unused CHANGELOG in bin. ([e8b6e09](https://github.com/alexseitsinger/react-ssr-frontend/commit/e8b6e09d02f3c38812a6d3e55acc4a15911da30f))
+- Removes unused prepare module. ([e7bd6f0](https://github.com/alexseitsinger/react-ssr-frontend/commit/e7bd6f00b1b4f4bd3b5a9f8d6de091c1b3b6d438))
+
+### Features
+- Updates servers call. ([400d2ae](https://github.com/alexseitsinger/react-ssr-frontend/commit/400d2aee960bf5fdb695ae4d0468020c1a2fa589))
+
+
+<a name="v1.6.1"></a>
+## [v1.6.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.6.0...v1.6.1) (2019-09-27)
+
+### Bug Fixes
+- Changes perms. ([1dce1d7](https://github.com/alexseitsinger/react-ssr-frontend/commit/1dce1d7a028708fd740c9d88736fd84743b7ce3a))
+
+
 <a name="v1.6.0"></a>
 ## [v1.6.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.5.0...v1.6.0) (2019-09-27)
 
