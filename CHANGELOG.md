@@ -1,3 +1,10 @@
+<a name="v1.9.0"></a>
+## [v1.9.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.8.0...v1.9.0) (2019-10-25)
+
+### Features
+- Handles modal reducer urls. ([ebec34e](https://github.com/alexseitsinger/react-ssr-frontend/commit/ebec34e9749b753a1f2633aa2940528ee1733862))
+
+
 <a name="v1.8.0"></a>
 ## [v1.8.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.7.0...v1.8.0) (2019-10-12)
 
