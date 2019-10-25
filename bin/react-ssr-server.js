@@ -259,7 +259,7 @@ function isOutsideRoot(target) {
 function getFirstExistingFile(filePaths, callback) {
   var found = false
 
-  filePaths.forEach(filePath => {
+  filePaths.forEach((filePath, i) => {
     if (found === true) {
       return
     }
@@ -271,6 +271,14 @@ function getFirstExistingFile(filePaths, callback) {
       found = true
       callback(existingPath)
     })
+
+    setTimeout(() => {
+      if ((i + 1) === filePaths.length) {
+        if (found === false) {
+          callback()
+        }
+      }
+    }, 1000)
   })
 }
 
@@ -302,12 +310,12 @@ function readFile(target, callback) {
 
 function readResponse(file, req, res) {
   if (!hasSecretKey(req)) {
-    return res.status(400).end()
+    return res.sendStatus(400).end()
   }
 
   readFile(file, (err, data) => {
     if (err) {
-      res.status(404).end()
+      res.sendStatus(404).end()
     }
 
     res.json(JSON.parse(data))
@@ -318,7 +326,7 @@ function renderResponse(req, res) {
   var isRendered = false
 
   if (!hasSecretKey(req)) {
-    return res.status(400).end()
+    return res.sendStatus(400).end()
   }
 
   bundlePaths.forEach(bp => {
@@ -406,8 +414,26 @@ app.get(`${stateUrl}/:reducerName`, (req, res) => {
     path.resolve(`./${pagesPath}/${reducerName}/reducer/${stateFileName}`),
   ]
 
+  if (reducerName.endsWith("Modal")) {
+    const str = reducerName.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    const bits = str.split(" ")
+    const pageName = bits.shift()
+    const last = bits.pop()
+    const modalName = bits.map(s => s.toLowerCase()).join("-")
+
+    stateFilePaths.push(
+      path.resolve(
+        `./${pagesPath}/${pageName}/modals/${modalName}/reducer/${stateFileName}`
+      )
+    )
+  }
+
   getFirstExistingFile(stateFilePaths, existingPath => {
-    readResponse(existingPath, req, res)
+    if (existingPath) {
+      return readResponse(existingPath, req, res)
+    }
+
+    res.sendStatus(404)
   })
 })
 
