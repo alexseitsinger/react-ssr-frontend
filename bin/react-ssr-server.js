@@ -282,10 +282,16 @@ function getFirstExistingFile(filePaths, callback) {
   })
 }
 
-function onFileExists(target, callback) {
+function onFileExists(target, callback, errback) {
   fs.exists(target, exists => {
     if (exists) {
-      callback(target)
+      return callback(target)
+    }
+
+    logMessage([`File doesn't exist: ${target}`])
+
+    if (errback) {
+      errback()
     }
   })
 }
@@ -304,6 +310,9 @@ function readFile(target, callback) {
 
       callback(null, data)
     })
+  }, () => {
+    logMessage([`File doesn't exist at ${target}`])
+    callback(true, null)
   })
 }
 
@@ -315,7 +324,7 @@ function readResponse(file, req, res) {
 
   readFile(file, (err, data) => {
     if (err) {
-      res.sendStatus(404).end()
+      return res.sendStatus(404).end()
     }
 
     res.json(JSON.parse(data))
@@ -403,13 +412,9 @@ const app = express()
 app.use(bodyParser.json({ limit: "10mb" }))
 
 // Return the webpack stats for the agent/environment
-app.get(`${statsUrl}/:agentName/:environmentName`, (req, res) => {
-  const { agentName, environmentName } = req.params
-
-  const fileName = `${statsFileName}.${agentName}.${environmentName}.json`
-  const relFilePath = `${statsPath}/${fileName}`
+app.get(`${statsUrl}`, (req, res) => {
+  const relFilePath = `${statsPath}/${statsFileName}`
   const absFilePath = path.resolve(`./${relFilePath}`)
-
   readResponse(absFilePath, req, res)
 })
 
