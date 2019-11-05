@@ -1,3 +1,10 @@
+<a name="v1.10.0"></a>
+## [v1.10.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.9.0...v1.10.0) (2019-11-05)
+
+### Features
+- Adds callback for failed bundles. ([ac7e1be](https://github.com/alexseitsinger/react-ssr-frontend/commit/ac7e1be27a8348899bb17fed7842efc51fbca3fa))
+
+
 <a name="v1.9.0"></a>
 ## [v1.9.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.8.0...v1.9.0) (2019-10-25)
 
