@@ -1,3 +1,10 @@
+<a name="v1.11.0"></a>
+## [v1.11.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.10.0...v1.11.0) (2019-11-05)
+
+### Features
+- Adds errback. ([9831476](https://github.com/alexseitsinger/react-ssr-frontend/commit/98314762bec4e2f36cee1d5e88ef42f8fda8ab5c))
+
+
 <a name="v1.10.0"></a>
 ## [v1.10.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.9.0...v1.10.0) (2019-11-05)
 
