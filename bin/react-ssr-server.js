@@ -329,7 +329,7 @@ function renderResponse(req, res) {
     return res.sendStatus(400).end()
   }
 
-  bundlePaths.forEach(bp => {
+  bundlePaths.forEach((bp, i, arr) => {
     onFileExists(bp, bundlePathFound => {
       if (isRendered === true) {
         return
@@ -347,6 +347,15 @@ function renderResponse(req, res) {
         isRendered = true
       })
     })
+
+    if (arr.length === (i + 1)) {
+      setTimeout(() => {
+        if (isRendered === false) {
+          logMessage([`Failed to find a bundle within ${bundlePath}`])
+          res.sendStatus(404).end()
+        }
+      }, 1000)
+    }
   })
 }
 
