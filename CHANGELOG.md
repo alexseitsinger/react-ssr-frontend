@@ -1,3 +1,10 @@
+<a name="v2.0.1"></a>
+## [v2.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v2.0.0...v2.0.1) (2019-11-06)
+
+### Bug Fixes
+- Fixes double invocation. ([dcc9a6d](https://github.com/alexseitsinger/react-ssr-frontend/commit/dcc9a6d4380b8ef274cab37947da2336248bb3e0))
+
+
 <a name="v2.0.0"></a>
 ## [v2.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.11.0...v2.0.0) (2019-11-06)
 
