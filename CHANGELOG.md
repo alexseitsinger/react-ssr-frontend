@@ -1,3 +1,10 @@
+<a name="v2.0.0"></a>
+## [v2.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.11.0...v2.0.0) (2019-11-06)
+
+### Features
+- Changes env files used and commands. ([a1b1efb](https://github.com/alexseitsinger/react-ssr-frontend/commit/a1b1efbc39fbaaeeb2c030cc26691c4c0e223edf))
+
+
 <a name="v1.11.0"></a>
 ## [v1.11.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v1.10.0...v1.11.0) (2019-11-05)
 
