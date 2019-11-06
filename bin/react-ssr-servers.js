@@ -18,10 +18,9 @@ const skipped = [
   "wait until bundle finished",
 ]
 
-const start = "yarn run start:development"
-const startRender = `${start}:render`
-const startClient = `${start}:client`
-const startServer = `${start}:server`
+const startRender = "yarn run start:development:render"
+const startClient = "yarn run start:development:client"
+const startServer = "yarn run start:development:server"
 
 const message = msg => {
   const dateObj = new Date()
@@ -92,10 +91,10 @@ function getEnv(callback) {
   const files = [baseEnv, devEnv]
   const env = {}
 
-  files.forEach(envFile => {
+  files.forEach((envFile, i) => {
     fs.exists(envFile, exists => {
       if (!exists) {
-        return callback({})
+        return
       }
 
       const data = fs.readFileSync(envFile, "utf8")
@@ -104,9 +103,11 @@ function getEnv(callback) {
         const [key, value] = line.split("=")
         env[key] = value
       })
-
-      callback(env)
     })
+
+    if (files.length === (i + 1)) {
+      callback(env)
+    }
   })
 }
 
