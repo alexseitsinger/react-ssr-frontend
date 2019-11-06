@@ -3,7 +3,8 @@
 const { spawn } = require("child_process")
 const fs = require("fs")
 
-const envFile = ".env"
+const baseEnv = ".env"
+const devEnv = ".env.development"
 
 const skipped = [
   "Project is running at",
@@ -17,9 +18,10 @@ const skipped = [
   "wait until bundle finished",
 ]
 
-const startRenderServer = "yarn run start:render:development"
-const startClientSideBundle = "yarn run start:client:development"
-const startServerSideBundle = "yarn run start:server:development"
+const start = "yarn run start:development"
+const startRender = `${start}:render`
+const startClient = `${start}:client`
+const startServer = `${start}:server`
 
 const message = msg => {
   const dateObj = new Date()
@@ -33,15 +35,18 @@ function spawnProcess({ command, env = {} }) {
   const cmd = args.shift()
 
   switch (command) {
-    case startClientSideBundle: {
+    default: {
+      break
+    }
+    case startClient: {
       message("Client-side bundle compiling.")
       break
     }
-    case startServerSideBundle: {
+    case startServer: {
       message("Server-side bundle compiling.")
       break
     }
-    case startRenderServer: {
+    case startRender: {
       message("Render server starting.")
       break
     }
@@ -84,29 +89,31 @@ function spawnProcess({ command, env = {} }) {
 }
 
 function getEnv(callback) {
-  fs.exists(envFile, exists => {
-    if (!exists) {
-      return callback({})
-    }
-    fs.readFile(envFile, "utf-8", (err, data) => {
-      if (err) {
-        return
+  const files = [baseEnv, devEnv]
+  const env = {}
+
+  files.forEach(envFile => {
+    fs.exists(envFile, exists => {
+      if (!exists) {
+        return callback({})
       }
+
+      const data = fs.readFileSync(envFile, "utf8")
       const lines = data.split("\n")
-      const env = {}
       lines.forEach(line => {
-        const pair = line.split("=")
-        env[pair[0]] = pair[1]
+        const [key, value] = line.split("=")
+        env[key] = value
       })
+
       callback(env)
     })
   })
 }
 
 const commands = [
-  startRenderServer,
-  startServerSideBundle,
-  startClientSideBundle,
+  startRender,
+  startServer,
+  startClient,
 ]
 
 commands.forEach(command => {
