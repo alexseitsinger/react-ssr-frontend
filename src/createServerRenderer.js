@@ -6,26 +6,14 @@ import { createMemoryHistory } from "history"
  *
  * @param {object} props
  * @param {function} props.createStore
- * The function to invoke to create the store.
  * @param {function} props.render
- * The function to invoke to render the server-side bundle output.
- *
- * @return {function}
- * Takes arugments (request, response). When invoked, will either invoke the
- * render function, passing the request, response, story and history objects as
- * arguments, or the response callback with an error object to report.
  *
  * @example
- * import { renderToString } from "react-dom/server"
- * import { createServerRenderer } from "@alexseitsinger/react-ssr"
- *
- * import { createStore } from "./store"
- * import { composed } from "./composed"
- *
  * export default createServerRenderer({
+ *   App,
  *   createStore,
- *   render: (request, response, store, history) => {
- *     const app = composed({ store, history })
+ *   render: (PreparedApp, store, history, request, response) => {
+ *     const app = <PreparedApp store={store} history={history} />
  *     const html = renderToString(app)
  *     const state = store.getState()
  *     response({ html, state })
