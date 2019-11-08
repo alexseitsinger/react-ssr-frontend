@@ -7,27 +7,17 @@ const DOM_LOADED = "DOMContentLoaded"
  * The entry point for the client-side bundle.
  *
  * @param {object} props
- * @param {function} props.getInitialState
- * The function to use to get the initial state from the server.
+ * @param {function} props.App
  * @param {function} props.createStore
- * The function to invoke to create the store.
  * @param {function} props.render
- * The function to invoke to create the output.
- *
- * @return {object}
- * The store used to create the app.
  *
  * @example
- * import { hydrate } from "react-dom"
- * import { createClientRenderer } from "@alexseitsinger/react-ssr"
- *
- * import { createStore } from "./store"
- * import { PreparedApp } from "./app"
- *
  * export const store = createClientRenderer({
+ *   App,
  *   createStore,
- *   render: (store, history) => {
- *     const app = PreparedApp({ store, history })
+ *   render,
+ *   render: (PreparedApp, store, history) => {
+ *     const app = <PreparedApp store={store} history={history} />
  *     const mountPoint = document.getElementsByTagName("main")[0]
  *     hydrate(app, mountPoint)
  *   },
@@ -35,13 +25,18 @@ const DOM_LOADED = "DOMContentLoaded"
  */
 export const createClientRenderer = ({
   App,
-  getInitialState,
   createStore,
   render,
 }) => {
-  const history = createBrowserHistory()
-  const store = createStore(history, getInitialState())
+  // Get the initial state from the server.
+  const initialState = window.__STATE__
+  delete window.__STATE__
 
+  // Create a new history object and store.
+  const history = createBrowserHistory()
+  const store = createStore(history, initialState)
+
+  // Render the app on the client.
   const PreparedApp = props => <App store={store} history={history} {...props} />
   const clientRenderer = () => render(PreparedApp, store, history)
 
