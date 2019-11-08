@@ -1,3 +1,10 @@
+<a name="v2.0.2"></a>
+## [v2.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v2.0.1...v2.0.2) (2019-11-08)
+
+### Bug Fixes
+- Removes getInitialState for static property. ([b2f33bc](https://github.com/alexseitsinger/react-ssr-frontend/commit/b2f33bcee36a6eaa51d0b4543cc66551325265e6))
+
+
 <a name="v2.0.1"></a>
 ## [v2.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v2.0.0...v2.0.1) (2019-11-06)
 
