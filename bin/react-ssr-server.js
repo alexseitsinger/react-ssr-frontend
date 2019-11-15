@@ -409,7 +409,7 @@ function start(app) {
 // Create the server
 const app = express()
 
-app.use(bodyParser.json({ limit: "10mb" }))
+app.use(bodyParser.json({ limit: "2mb" }))
 
 // Return the webpack stats for the agent/environment
 app.get(`${statsUrl}`, (req, res) => {
