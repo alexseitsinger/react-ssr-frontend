@@ -1,3 +1,7 @@
+<a name="v3.1.0"></a>
+## [v3.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.0.0...v3.1.0) (2019-11-15)
+
+
 <a name="v3.0.0"></a>
 ## [v3.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v2.0.2...v3.0.0) (2019-11-08)
 
