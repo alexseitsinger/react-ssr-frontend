@@ -70,5 +70,5 @@
     "build:production": "./node_modules/.bin/webpack --config=./webpack.config.js",
     "test": "./node_modules/.bin/jest"
   },
-  "version": "3.0.0"
+  "version": "3.1.0"
 }
