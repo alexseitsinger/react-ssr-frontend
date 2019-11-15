@@ -10,18 +10,6 @@ const DOM_LOADED = "DOMContentLoaded"
  * @param {function} props.App
  * @param {function} props.createStore
  * @param {function} props.render
- *
- * @example
- * export const store = createClientRenderer({
- *   App,
- *   createStore,
- *   render,
- *   render: (PreparedApp, store, history) => {
- *     const app = <PreparedApp store={store} history={history} />
- *     const mountPoint = document.getElementsByTagName("main")[0]
- *     hydrate(app, mountPoint)
- *   },
- * })
  */
 export const createClientRenderer = ({
   App,
@@ -36,10 +24,10 @@ export const createClientRenderer = ({
   const history = createBrowserHistory()
   const store = createStore(history, initialState)
 
-  // Render the app on the client.
   const PreparedApp = props => <App store={store} history={history} {...props} />
   const clientRenderer = () => render(PreparedApp, store, history)
 
+  // Render the app on the client.
   if (document.readyState === "loading") {
     document.addEventListener(DOM_LOADED, clientRenderer)
   }
