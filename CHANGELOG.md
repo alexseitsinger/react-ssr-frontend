@@ -1,3 +1,10 @@
+<a name="v3.2.0"></a>
+## [v3.2.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.1.0...v3.2.0) (2019-11-15)
+
+### Code Refactoring
+- Changes 10mb to 2mb. ([b39d235](https://github.com/alexseitsinger/react-ssr-frontend/commit/b39d235f3393c717297ab6e04ab940adafca0be4))
+
+
 <a name="v3.1.0"></a>
 ## [v3.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.0.0...v3.1.0) (2019-11-15)
 
