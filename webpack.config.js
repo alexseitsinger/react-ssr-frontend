@@ -25,8 +25,8 @@ module.exports = {
   externals: [
     nodeExternals({
       modulesFromFile: {
-        exclude: ["devDependencies", "peerDependencies"],
-        include: ["dependencies"],
+        include: ["dependencies", "devDependencies", "peerDependencies"],
+        exclude: [],
       },
     }),
   ]
