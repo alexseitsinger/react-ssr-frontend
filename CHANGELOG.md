@@ -1,3 +1,11 @@
+<a name="v4.0.0"></a>
+## [v4.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.2.0...v4.0.0) (2019-11-16)
+
+### Code Refactoring
+- Renames bin scripts. ([b0a7175](https://github.com/alexseitsinger/react-ssr-frontend/commit/b0a71751d90f464edc8c5305d8ae18ce56792550))
+- Renames shadowed var. ([6c2047e](https://github.com/alexseitsinger/react-ssr-frontend/commit/6c2047e504bef3dab0566a1fbf570e7c995eabec))
+
+
 <a name="v3.2.0"></a>
 ## [v3.2.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.1.0...v3.2.0) (2019-11-15)
 
