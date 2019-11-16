@@ -4,8 +4,8 @@
     "name": "Alex Seitsinger"
   },
   "bin": {
-    "ssr": "./bin/ssr.js",
-    "ssr-dev": "./bin/ssr-dev.js"
+    "react-ssr": "./bin/react-ssr.js",
+    "react-ssr-dev": "./bin/react-ssr-dev.js"
   },
   "dependencies": {
     "@babel/runtime-corejs3": "7.7.2",
