@@ -1,3 +1,10 @@
+<a name="v4.1.0"></a>
+## [v4.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v4.0.0...v4.1.0) (2019-11-16)
+
+### Code Refactoring
+- Renames bin scripts. ([ffb1b87](https://github.com/alexseitsinger/react-ssr-frontend/commit/ffb1b87e1b23738dda87d8c3f61a340e87444542))
+
+
 <a name="v4.0.0"></a>
 ## [v4.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v3.2.0...v4.0.0) (2019-11-16)
 
