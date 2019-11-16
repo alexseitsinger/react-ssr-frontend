@@ -4,8 +4,8 @@
     "name": "Alex Seitsinger"
   },
   "bin": {
-    "react-ssr-server": "./bin/react-ssr-server.js",
-    "react-ssr-servers": "./bin/react-ssr-servers.js"
+    "ssr": "./bin/ssr.js",
+    "ssr-dev": "./bin/ssr-dev.js"
   },
   "dependencies": {
     "@babel/runtime-corejs3": "7.7.2",
@@ -14,11 +14,11 @@
     "express": "4.17.1",
     "history": "4.10.1",
     "underscore": "^1.9.1",
-    "yargs": "14.2.0"
+    "yargs": "15.0.1"
   },
   "description": "Front-end service for server-side rendering react apps.",
   "devDependencies": {
-    "@alexseitsinger/eslint-config-base": "^0.13.0",
+    "@alexseitsinger/eslint-config-base": "^0.16.0",
     "@alexseitsinger/eslint-config-react": "^0.10.0",
     "@babel/core": "7.7.2",
     "@babel/plugin-proposal-export-default-from": "7.5.2",
