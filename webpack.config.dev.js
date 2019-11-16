@@ -4,6 +4,7 @@ module.exports = {
   entry: "./src/index.js",
   mode: "development",
   target: "node",
+  devtool: "source-map",
   output: {
     path: path.resolve("./dist"),
     filename: "[name].dev.js",
@@ -15,7 +16,9 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        include: [
+          path.resolve("./src"),
+        ],
       },
     ],
   },

@@ -5,6 +5,7 @@ module.exports = {
   entry: "./src/index.js",
   mode: "production",
   target: "node",
+  devtool: false,
   output: {
     path: path.resolve("./dist"),
     filename: "[name].js",
@@ -15,18 +16,18 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        include: [
+          path.resolve("./src"),
+        ],
       },
     ],
   },
   externals: [
-    /**
     nodeExternals({
       modulesFromFile: {
-        exclude: ["dependencies"],
-        include: ["peerDependencies", "devDependencies", "optionalDependencies"],
+        exclude: ["devDependencies", "peerDependencies"],
+        include: ["dependencies"],
       },
     }),
-    */
-  ],
+  ]
 }
