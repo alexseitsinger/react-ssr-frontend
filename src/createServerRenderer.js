@@ -25,17 +25,17 @@ export const createServerRenderer = ({ App, createStore, render }) => (request, 
     const { url, initialState } = request.body
 
     // Create a history entry based on the URL of the requested page.
-    const history = createMemoryHistory({
+    const serverHistory = createMemoryHistory({
       initialEntries: [url],
       initialIndex: 0,
     })
 
     // Create the store to use for the render.
-    const store = createStore(history, initialState)
+    const store = createStore(serverHistory, initialState)
 
     // Render the response
-    const PreparedApp = props => <App store={store} history={history} {...props} />
-    render(PreparedApp, store, history, request, response)
+    const PreparedApp = props => <App store={store} history={serverHistory} {...props} />
+    render(PreparedApp, store, serverHistory, request, response)
   }
   catch (e) {
     // Return an error object to django.
