@@ -1,4 +1,5 @@
 const path = require("path")
+const nodeExternals = require("webpack-node-externals")
 
 module.exports = {
   entry: "./src/index.js",
@@ -22,4 +23,12 @@ module.exports = {
       },
     ],
   },
+  externals: [
+    nodeExternals({
+      modulesFromFile: {
+        include: ["dependencies", "devDependencies", "peerDependencies"],
+        exclude: [],
+      },
+    }),
+  ],
 }
