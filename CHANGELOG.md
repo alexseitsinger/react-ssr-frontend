@@ -1,3 +1,10 @@
+<a name="v5.0.0"></a>
+## [v5.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v4.1.0...v5.0.0) (2019-11-18)
+
+### Features
+- Changes public api. ([25988d7](https://github.com/alexseitsinger/react-ssr-frontend/commit/25988d760c8146d90f99616b278c046708b94c43))
+
+
 <a name="v4.1.0"></a>
 ## [v4.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v4.0.0...v4.1.0) (2019-11-16)
 
