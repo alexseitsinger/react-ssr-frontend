@@ -71,6 +71,27 @@ The entry point for the server-side bundle.
     -   `props.onBeforeRender` **[function][2]?** Invoked before rendering a response
     -   `props.render` **[function][2]** The method to generate the server-side rendered app content.
 
+### Examples
+
+```javascript
+export default serverBundle({
+ App,
+ getStore: createStore,
+ beforeRender: (request, response, handleRender) => {
+   // Do some things here before rendering...
+   handleRender()
+ },
+ render: (PreparedApp, store, history, url) => {
+   const html = renderToString(<PreparedApp />)
+   const state = store.getState()
+   return {
+     html,
+     state,
+   }
+ },
+})
+```
+
 Returns **[object][1]** 
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
