@@ -6,7 +6,32 @@ const STATE_KEY = "initialState"
 const URL_KEY = "url"
 
 /**
+ * @name serverBundle
+ *
+ * @description
  * The entry point for the server-side bundle.
+ *
+ * @param {object} props
+ * @param {function} props.App
+ * The app to render server-side.
+ * @param {string} [props.urlKey=url]
+ * String to use to find the requested url in the request body.
+ * @param {function} [props.getUrl]
+ * Method to use to get the requested url for the render.
+ * @param {function} [props.getHistory]
+ * Method to get the history object to use.
+ * @param {string} [props.stateKey=initialState]
+ * String to use to find the initial state in the DOM.
+ * @param {function} [props.getState]
+ * Method to get the initial state.
+ * @param {function} props.getStore
+ * Method to get the store to use for the render.
+ * @param {function} [props.onBeforeRender]
+ * Invoked before rendering a response
+ * @param {function} props.render
+ * The method to generate the server-side rendered app content.
+ *
+ * @returns {object}
  */
 export default ({
   App,
