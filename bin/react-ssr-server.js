@@ -166,15 +166,14 @@ function isFunction(f) {
 }
 
 function importDefault(pathToModule) {
+  var b
   try {
-    return require(pathToModule).default
+    b = require(pathToModule).default
   }
   catch (e) {
-    logMessage([
-      `Failed to import default. (${pathToModule})`,
-      `${e.name}: ${e.message}`,
-    ])
+    b = require(pathToModule)
   }
+  return b
 }
 
 // Returns true if the header exists and it matches the key specified.
@@ -288,7 +287,7 @@ function onFileExists(target, callback, errback) {
       return callback(target)
     }
 
-    logMessage([`File doesn't exist: ${target}`])
+    //logMessage([`File doesn't exist: ${target}`])
 
     if (errback) {
       errback()
@@ -311,7 +310,7 @@ function readFile(target, callback) {
       callback(null, data)
     })
   }, () => {
-    logMessage([`File doesn't exist at ${target}`])
+    //logMessage([`File doesn't exist at ${target}`])
     callback(true, null)
   })
 }
@@ -339,6 +338,10 @@ function renderResponse(req, res) {
   }
 
   bundlePaths.forEach((bp, i, arr) => {
+    if (isRendered === true) {
+      return
+    }
+
     onFileExists(bp, bundlePathFound => {
       if (isRendered === true) {
         return
@@ -348,19 +351,19 @@ function renderResponse(req, res) {
 
       logMessage([`Successfully imported bundle. (${rel})`])
 
-      const renderBundle = require(bundlePathFound).default
+      const renderBundle = importDefault(bundlePathFound)
 
       renderBundle(req, context => {
-        logMessage([`Successfully rendered bundle. (${rel})`])
-        res.json(context)
         isRendered = true
+        res.json(context)
+        logMessage([`Successfully rendered bundle. (${rel})`])
       })
     })
 
     if (arr.length === (i + 1)) {
       setTimeout(() => {
         if (isRendered === false) {
-          logMessage([`Failed to find a bundle within ${bundlePath}`])
+          logMessage([`Failed to find a bundle at ${bundlePath}`])
           res.sendStatus(404).end()
         }
       }, 1000)
