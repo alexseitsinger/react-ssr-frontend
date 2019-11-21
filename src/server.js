@@ -32,6 +32,24 @@ const URL_KEY = "url"
  * The method to generate the server-side rendered app content.
  *
  * @returns {object}
+ *
+ * @example
+ * export default serverBundle({
+ *  App,
+ *  getStore: createStore,
+ *  beforeRender: (request, response, handleRender) => {
+ *    // Do some things here before rendering...
+ *    handleRender()
+ *  },
+ *  render: (PreparedApp, store, history, url) => {
+ *    const html = renderToString(<PreparedApp />)
+ *    const state = store.getState()
+ *    return {
+ *      html,
+ *      state,
+ *    }
+ *  },
+ * })
  */
 export default ({
   App,
