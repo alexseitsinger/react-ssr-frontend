@@ -1,3 +1,10 @@
+<a name="v7.0.0"></a>
+## [v7.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v6.0.1...v7.0.0) (2019-11-22)
+
+### Features
+- Moves bulk of script to utils module. ([3c54f00](https://github.com/alexseitsinger/react-ssr-frontend/commit/3c54f007e3595f03922955146c7428ba39d2ea09))
+
+
 <a name="v6.0.1"></a>
 ## [v6.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v6.0.0...v6.0.1) (2019-11-21)
 
