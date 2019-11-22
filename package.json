@@ -44,6 +44,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "files": [
+    "utils.js",
     "index.js",
     "bin/react-ssr-server.js",
     "bin/react-ssr-servers.js",
