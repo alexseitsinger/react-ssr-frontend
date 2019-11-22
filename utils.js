@@ -200,7 +200,6 @@ function configure(
   }
 
   function readFile(target, callback) {
-    console.log(target)
     const isPermitted = isPermittedFile(target)
     if (isPermitted === false) {
       return callback(true, null)
