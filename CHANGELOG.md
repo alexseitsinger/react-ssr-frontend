@@ -1,3 +1,10 @@
+<a name="v7.1.0"></a>
+## [v7.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.0.2...v7.1.0) (2019-12-07)
+
+### Features
+- Adds extra endpoints for cache busting urls. ([e0e038d](https://github.com/alexseitsinger/react-ssr-frontend/commit/e0e038dccb6463c14962f76aca8fc055795dd63b))
+
+
 <a name="v7.0.2"></a>
 ## [v7.0.2](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.0.1...v7.0.2) (2019-11-22)
 
