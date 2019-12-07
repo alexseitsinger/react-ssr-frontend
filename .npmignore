@@ -1,8 +1,0 @@
-src/
-node_modules/
-.babelrc
-babel.config.js
-webpack.config.js
-webpack.config.dev.js
-yarn-error.log
-yarn.lock
