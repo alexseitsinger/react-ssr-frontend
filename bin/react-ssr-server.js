@@ -219,8 +219,7 @@ app.get(`${statsUrl}/:encodedDate`, statsRequestHandler)
 
 // Returns the json data for the default state of a reducer.
 app.get(`${stateUrl}/:reducerName`, stateRequestHandler)
-app.get(`${stateUrl}/:reducerName/:encodedDate`, stateRequestHandler)
-
+//app.get(`${stateUrl}/:reducerName/:encodedDate`, stateRequestHandler)
 // Returns the intial HTML output of the react app.
 app.post(renderUrl, renderRequestHandler)
 app.post(`${renderUrl}/:encodedDate`, renderRequestHandler)
