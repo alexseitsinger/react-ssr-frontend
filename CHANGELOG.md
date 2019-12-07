@@ -1,3 +1,10 @@
+<a name="v7.1.1"></a>
+## [v7.1.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.1.0...v7.1.1) (2019-12-07)
+
+### Bug Fixes
+- Removes encoded dates from state urls. ([8d393df](https://github.com/alexseitsinger/react-ssr-frontend/commit/8d393dfcd2c83b988ef722afcf920df3f5f36128))
+
+
 <a name="v7.1.0"></a>
 ## [v7.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.0.2...v7.1.0) (2019-12-07)
 
