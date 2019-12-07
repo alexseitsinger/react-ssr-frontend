@@ -151,13 +151,7 @@ const {
   secretKeyHeaderName,
 )
 
-// Create the server
-const app = express()
-
-app.use(bodyParser.json({ limit: "1mb" }))
-
-// Return the webpack stats for the agent/environment
-app.get(`${statsUrl}`, (request, response) => {
+function statsRequestHandler(request, response) {
   setNoCacheHeaders(response)
   const relFilePath = `${statsPath}/${statsFileName}`
   const absFilePath = path.resolve(`./${relFilePath}`)
@@ -166,10 +160,9 @@ app.get(`${statsUrl}`, (request, response) => {
     request,
     response,
   )
-})
+}
 
-// Returns the json data for the default state of a reducer.
-app.get(`${stateUrl}/:reducerName`, (request, response) => {
+function stateRequestHandler(request, response) {
   setNoCacheHeaders(response)
 
   const { reducerName } = request.params
@@ -204,17 +197,33 @@ app.get(`${stateUrl}/:reducerName`, (request, response) => {
 
     response.sendStatus(404)
   })
-})
+}
 
-// Returns the rendered react component data.
-app.post(renderUrl, (request, response) => {
+function renderRequestHandler(request, response) {
   setNoCacheHeaders(response)
   renderResponse(
     paths,
     request,
     response,
   )
-})
+}
+
+// Create the server
+const app = express()
+
+app.use(bodyParser.json({ limit: "1mb" }))
+
+// Return the webpack stats for the agent/environment
+app.get(`${statsUrl}`, statsRequestHandler)
+app.get(`${statsUrl}/:encodedDate`, statsRequestHandler)
+
+// Returns the json data for the default state of a reducer.
+app.get(`${stateUrl}/:reducerName`, stateRequestHandler)
+app.get(`${stateUrl}/:reducerName/:encodedDate`, stateRequestHandler)
+
+// Returns the intial HTML output of the react app.
+app.post(renderUrl, renderRequestHandler)
+app.post(`${renderUrl}/:encodedDate`, renderRequestHandler)
 
 app.listen(port, address, () => {
   logMessage([`Server listening at http(s)://${address}:${port}`])
