@@ -1,3 +1,15 @@
+<a name="v8.0.0"></a>
+## [v8.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.1.1...v8.0.0) (2020-01-17)
+
+### Code Refactoring
+- Updates. ([070af25](https://github.com/alexseitsinger/react-ssr-frontend/commit/070af25f60acdcb0b02cf67e4c7e97264a7edf10))
+
+### Features
+- Adds new bin script. ([389961b](https://github.com/alexseitsinger/react-ssr-frontend/commit/389961b3d75729c5e325d456f115de059d7bdc14))
+- Adds new dirs. ([0561256](https://github.com/alexseitsinger/react-ssr-frontend/commit/0561256071eabdc10412defd3b20cbee680429fb))
+- Adds utils. ([b6807ac](https://github.com/alexseitsinger/react-ssr-frontend/commit/b6807ac64845ce1617e13c51aa2f571217d103d2))
+
+
 <a name="v7.1.1"></a>
 ## [v7.1.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.1.0...v7.1.1) (2019-12-07)
 
