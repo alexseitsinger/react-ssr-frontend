@@ -4,8 +4,7 @@
     "name": "Alex Seitsinger"
   },
   "bin": {
-    "react-ssr-server": "./bin/react-ssr-server.js",
-    "react-ssr-servers": "./bin/react-ssr-servers.js"
+    "react-server": "./bin/react-server.js"
   },
   "dependencies": {
     "@babel/runtime-corejs3": "7.7.2",
@@ -14,6 +13,9 @@
     "express": "4.17.1",
     "history": "4.10.1",
     "underscore": "^1.9.1",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-hot-server-middleware": "^0.6.0",
     "yargs": "15.0.1"
   },
   "description": "Front-end service for server-side rendering react apps.",
@@ -44,10 +46,11 @@
     "webpack-node-externals": "1.7.2"
   },
   "files": [
+    "servers/*",
+    "handlers/*",
     "utils.js",
     "index.js",
-    "bin/react-ssr-server.js",
-    "bin/react-ssr-servers.js",
+    "bin/react-server.js",
     "dist/main.js",
     "dist/main.dev.js",
     "dist/main.dev.js.map",
