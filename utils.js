@@ -1,5 +1,6 @@
-const path = require("path")
 const fs = require("fs")
+
+const path = require("path")
 
 function logMessage(lines) {
   const first = `[react-ssr]: ${lines.shift()}`
@@ -38,31 +39,6 @@ function isDirectory(target) {
   }
 }
 
-function getFirstExistingFile(filePaths, callback) {
-  var isFound = false
-
-  filePaths.forEach((filePath, i) => {
-    if (isFound === true) {
-      return
-    }
-    onFileExists(filePath, existingPath => {
-      if (isFound === true) {
-        return
-      }
-
-      isFound = true
-      callback(existingPath)
-    })
-    setTimeout(() => {
-      if ((i + 1) === filePaths.length) {
-        if (isFound === false) {
-          callback()
-        }
-      }
-    }, 1000)
-  })
-}
-
 function setNoCacheHeaders(res) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate")
   res.header("Expires", "-1")
@@ -97,9 +73,9 @@ function configure(
   const bundlePathSuffix = path.join(bundlePath, bundleName)
   const bundlePaths = [
     bundleName,
-    path.resolve(root, `./${bundlePathSuffix}`),
-    path.resolve(root, `../../${bundlePathSuffix}`),
-    path.resolve(root, `../../../../${bundlePathSuffix}`),
+    path.resolve(`./${bundlePathSuffix}`),
+    path.resolve(`../../${bundlePathSuffix}`),
+    path.resolve(`../../../../${bundlePathSuffix}`),
   ].filter(bp => {
     if (isOutsideRoot(bp, root)) {
       return false
@@ -127,8 +103,58 @@ function configure(
       ".env.production",
       ".env.production.local",
       ...ignoredFiles,
-    ]
+    ],
   }
+
+  function getFirstExistingFile(filePaths, callback) {
+    var isFound = false
+
+    const realPaths = filePaths.map(p => path.join(root, p))
+
+    realPaths.forEach((filePath, i) => {
+      if (isFound === true) {
+        return
+      }
+      onFileExists(filePath, existingPath => {
+        if (isFound === true) {
+          return
+        }
+
+        isFound = true
+        callback(existingPath)
+      })
+      setTimeout(() => {
+        if ((i + 1) === filePaths.length) {
+          if (isFound === false) {
+            callback()
+          }
+        }
+      }, 1000)
+    })
+  }
+
+
+  function getStateFilePaths({
+    reducerName,
+    pagesPath,
+  }) {
+    const reducerFile = `reducer/${stateFileName}`
+
+    const paths = [
+      `src/app/core/reducers/${reducerName}/${stateFileName}`,
+      `src/app/site/reducers/${reducerName}/${stateFileName}`,
+      `${pagesPath}/${reducerName}/${reducerFile}`,
+    ]
+
+    if (reducerName.endsWith("Modal")) {
+      const { modalName, pageName } = getNamesForState(reducerName)
+      const modalPath = `${pagesPath}/${pageName}/modals/${modalName}/${reducerFile}`
+      paths.push(modalPath)
+    }
+
+    return paths
+  }
+
 
   // Prevent reading of certain files always.
   function isIgnoredFile(target) {
@@ -202,18 +228,20 @@ function configure(
   function readFile(target, callback) {
     const isPermitted = isPermittedFile(target)
     if (isPermitted === false) {
+      console.log("file not permitted")
       return callback(true, null)
     }
-
     onFileExists(target, () => {
       fs.readFile(target, "utf8", (err, data) => {
         if (err) {
+          console.log("fs.readFile error")
           return callback(true, null)
         }
 
         callback(null, data)
       })
     }, () => {
+      console.log("file doesnt exist")
       callback(true, null)
     })
   }
@@ -223,10 +251,13 @@ function configure(
     request,
     response,
   ) {
+    setNoCacheHeaders(response)
+
     if (!hasSecretKey(request)) {
       return response.sendStatus(400).end()
     }
 
+    //const realPath = path.join(root, filePath)
     readFile(filePath, (err, data) => {
       if (err) {
         return response.sendStatus(404).end()
@@ -241,31 +272,49 @@ function configure(
     request,
     response,
   ) {
+    setNoCacheHeaders(response)
+
     if (!hasSecretKey(request)) {
       return response.sendStatus(400).end()
     }
 
     var isRendered = false
-
     bundlesSuspected.forEach((bp, i, arr) => {
       if (isRendered === true) {
         return
       }
-
       onFileExists(bp, bundlePathFound => {
         if (isRendered === true) {
           return
         }
 
         const rel = path.relative(root, bundlePathFound)
-        const renderBundle = requireModule(bundlePathFound)
+        const serverRenderer = requireModule(bundlePathFound)
+        const serverRender = serverRenderer()
         logMessage([`Successfully imported bundle. (${rel})`])
 
-        renderBundle(request, context => {
-          response.json(context)
-          isRendered = true
-          logMessage([`Successfully rendered bundle. (${rel})`])
-        })
+        try {
+          const rendered = serverRender(request, response)
+          if (Object.prototype.toString.call(rendered) === "[object Object]") {
+            response.json(rendered)
+            isRendered = true
+          }
+          else {
+            rendered.then(result => {
+              response.json(result)
+              isRendered = true
+            })
+          }
+        }
+        catch (e) {
+          response.json({
+            error: {
+              type: e.constructor.name,
+              message: e.message,
+              stack: e.stack,
+            },
+          })
+        }
       })
 
       if (arr.length === (i + 1)) {
@@ -281,9 +330,22 @@ function configure(
   return {
     options: opts,
     methods: {
+      getFirstExistingFile,
+      getStateFilePaths,
       renderResponse,
       readResponse,
     },
+  }
+}
+
+function getNamesForState(reducerName) {
+  const str = reducerName.replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+  const bits = str.split(" ")
+  const pageName = bits.shift()
+  const modalName = bits.map(s => s.toLowerCase()).join("-")
+  return {
+    pageName,
+    modalName,
   }
 }
 
@@ -291,7 +353,6 @@ module.exports = {
   configure,
   onFileExists,
   setNoCacheHeaders,
-  getFirstExistingFile,
   isDirectory,
   requireModule,
   requireUncached,
