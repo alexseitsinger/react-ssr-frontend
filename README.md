@@ -52,7 +52,7 @@ export default serverBundle({
 The script to start the compilation (development only) and provider servers.
 
 ```bash
-yarn react-server [options]
+yarn react-server [--address <value> ...]
 ```
 
 #### Options
