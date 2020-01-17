@@ -1,2 +1,2 @@
-export { default as clientBundle } from "./client"
+export { default as browserBundle } from "./browser"
 export { default as serverBundle } from "./server"
