@@ -1,3 +1,7 @@
+<a name="v8.0.1"></a>
+## [v8.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v8.0.0...v8.0.1) (2020-01-17)
+
+
 <a name="v8.0.0"></a>
 ## [v8.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v7.1.1...v8.0.0) (2020-01-17)
 
