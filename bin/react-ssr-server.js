@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const fs = require("fs")
-const path = require("path")
 
+const path = require("path")
 const yargs = require("yargs")
 const express = require("express")
 const bodyParser = require("body-parser")
@@ -173,7 +173,7 @@ function stateRequestHandler(request, response) {
   ]
 
   if (reducerName.endsWith("Modal")) {
-    const str = reducerName.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    const str = reducerName.replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     const bits = str.split(" ")
     const pageName = bits.shift()
     const last = bits.pop()
@@ -199,6 +199,10 @@ function stateRequestHandler(request, response) {
   })
 }
 
+const http = require("http")
+
+const concat = require("concat-stream")
+
 function renderRequestHandler(request, response) {
   setNoCacheHeaders(response)
   renderResponse(
@@ -222,7 +226,7 @@ app.get(`${stateUrl}/:reducerName`, stateRequestHandler)
 //app.get(`${stateUrl}/:reducerName/:encodedDate`, stateRequestHandler)
 // Returns the intial HTML output of the react app.
 app.post(renderUrl, renderRequestHandler)
-app.post(`${renderUrl}/:encodedDate`, renderRequestHandler)
+//app.post(`${renderUrl}/:encodedDate`, renderRequestHandler)
 
 app.listen(port, address, () => {
   logMessage([`Server listening at http(s)://${address}:${port}`])
