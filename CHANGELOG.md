@@ -1,3 +1,10 @@
+<a name="v9.0.0"></a>
+## [v9.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v8.0.1...v9.0.0) (2020-01-19)
+
+### Code Refactoring
+- Updates package. ([42dc7ae](https://github.com/alexseitsinger/react-ssr-frontend/commit/42dc7aec10c19b72b839ccc3a41313a5afe22d5e))
+
+
 <a name="v8.0.1"></a>
 ## [v8.0.1](https://github.com/alexseitsinger/react-ssr-frontend/compare/v8.0.0...v8.0.1) (2020-01-17)
 
