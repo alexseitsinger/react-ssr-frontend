@@ -72,7 +72,6 @@ yarn react-server [--address <value> ...]
 - secretKeyHeaderName: The HTTP header that is used to carry the secret key.
 - serverBundlePath: The path to find the bundle. (default: dist/development/server)
 - serverBundleName: The name of the bundle used for server-side rendering. (default: server.js)
-- allowedFiles: Files that are allowed to be read. (default: webpack.json)
-- allowedFileTypes: Filetypes that are allowed to be read (default: .json)
-- ignoredFile: Specific files that are not allowed to be read. (default: [])
+- allowedFiles: Files that are allowed to be read. (default: [webpack.json])
+- ignoredFiles: Specific files that are not allowed to be read. (default: [])
 - webpackConfig: The webpack config to use for the compilers. (default: webpack.config.js)
