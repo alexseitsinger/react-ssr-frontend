@@ -20,7 +20,7 @@ export default ({
   const PreparedApp = props => (
     <App
       store={store}
-      history={browserHistory}
+      routerHistory={browserHistory}
       {...props}
     />
   )

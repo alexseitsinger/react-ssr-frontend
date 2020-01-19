@@ -34,7 +34,7 @@ export default ({
 
   const PreparedApp = props => (
     <App
-      history={serverHistory}
+      routerHistory={serverHistory}
       store={store}
       url={url}
       {...props}
