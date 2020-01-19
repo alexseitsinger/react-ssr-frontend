@@ -58,17 +58,20 @@ yarn react-server [--address <value> ...]
 #### Options
 
 - address: Specify the address the server(s) should listen on. (default: 0.0.0.0)
+- compilerPort: Specify the port the compiler server will use. (default: 8081)
+- providerPort: Specify the port the provider server will use. (default: 8082)
 - renderUrl: The url to use for the render endpoint. (default: /render)
-- pagesPath: The path to the pages components. (default: src/app/site/pages)
-- stateUrl: The url to use for getting default state. (default: /state)
-- stateFileName: The name of the state file for each reducer. (default: state.json)
-- statsUrl: The url to use to get the webpack stats data. (default: /stats)
-- statsPath: The path to the webpack stats file. (default: dist/development/browser)
-- statsFileName: The path to the webpack stats file. (default: webpack.json)
-- secretKey: The secret key to use to protect requests.
+- pagesDir: The path to the pages components. (default: src/app/site/pages)
+- reducersDirs: The paths to the non-page reducers. (default: [])
+- defaultStateUrl: The url to use for getting default state. (default: /defaultState)
+- defaultStateFileName: The name of the state file for each reducer. (default: defaultState.json)
+- browserStatsUrl: The url to use to get the webpack stats data. (default: /browserStats)
+- browserStatsPath: The path to the webpack stats file. (default: dist/development/browser)
+- browserStatsFileName: The path to the webpack stats file. (default: webpack.json)
+- secretKeyValue: The secret key to use to protect requests.
 - secretKeyHeaderName: The HTTP header that is used to carry the secret key.
-- bundlePath: The path to find the bundle. (default: dist/development/server)
-- bundleName: The name of the bundle used for server-side rendering. (default: server.js)
+- serverBundlePath: The path to find the bundle. (default: dist/development/server)
+- serverBundleName: The name of the bundle used for server-side rendering. (default: server.js)
 - allowedFiles: Files that are allowed to be read. (default: webpack.json)
 - allowedFileTypes: Filetypes that are allowed to be read (default: .json)
 - ignoredFile: Specific files that are not allowed to be read. (default: [])
