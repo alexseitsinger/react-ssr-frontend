@@ -3,52 +3,77 @@
 const yargs = require("yargs")
 const path = require("path")
 
-const { configure } = require("../utils")
 
 // Capture the options
 yargs
   .option("address", {
-    describe: "Specify the servers address",
+    describe: "Specify the address to use for the compiler and provider servers.",
     default: "0.0.0.0",
     string: true,
   })
+  .option("compilerPort", {
+    describe: "The port to use for the compiler server.",
+    default: 8081,
+    number: true,
+  })
+  .option("providerPort", {
+    describe: "The port to use for the provider server.",
+    default: 8082,
+    number: true,
+  })
+  .option("webpackConfig", {
+    describe: "The (double) webpack config to use for the compilers.",
+    default: "webpack.config.js",
+    string: true,
+  })
+
+
   .option("renderUrl", {
-    describe: "The url to use for the render endpoint",
+    describe: "The url for server-side rendering.",
     default: "/render",
     string: true,
   })
-  .option("pagesPath", {
-    describe: "The path the pages components.",
-    default: "src/app/site/pages",
+
+
+  .option("reducersDirs", {
+    describe: "The paths to find a reducers default state",
+    array: true,
+  })
+  .option("pagesDir", {
+    describe: "The path to find a pages reducer default state",
     string: true,
   })
-  .option("stateUrl", {
-    describe: "The url to use for getting default state.",
-    default: "/state",
+  .option("defaultStateUrl", {
+    describe: "The url for retrieving a reducers default state.",
+    default: "/defaultState",
     string: true,
   })
-  .option("stateFileName", {
-    describe: "The name of the state file for each reducer.",
-    default: "state.json",
+  .option("defaultStateFileName", {
+    describe: "The filename that contains the reducers default state.",
+    default: "defaultState.json",
     string: true,
   })
-  .option("statsUrl", {
-    describe: "The url to to use to get webpack stats data.",
-    default: "/stats",
+
+
+  .option("browserStatsUrl", {
+    describe: "The url to retrieve the browser stats.",
+    default: "/browserStats",
     string: true,
   })
-  .option("statsPath", {
-    describe: "The path to the webpack stats file.",
+  .option("browserStatsPath", {
+    describe: "The path to the browser stats file.",
     default: "dist/development/browser",
     string: true,
   })
-  .option("statsFileName", {
-    describe: "The name of the webpack stats file.",
+  .option("browserStatsFileName", {
+    describe: "The name of the browser stats file.",
     default: "webpack.json",
     string: true,
   })
-  .option("secretKey", {
-    describe: "The secret key to use to protect requests.",
+
+
+  .option("secretKeyValue", {
+    describe: "The value that the secret key should be.",
     string: true,
   })
   .option("secretKeyHeaderName", {
@@ -56,24 +81,23 @@ yargs
     default: "secret-key",
     string: true,
   })
-  .option("bundlePath", {
-    describe: "The path to find the bundle.",
+
+
+  .option("serverBundlePath", {
+    describe: "The path to find the server bundle.",
     default: "dist/development/server",
     string: true,
   })
-  .option("bundleName", {
-    describe: "The name of the bundle used for server-side rendering.",
+  .option("serverBundleName", {
+    describe: "The name of the server bundle.",
     default: "server.js",
     string: true,
   })
+
+
   .option("allowedFiles", {
-    describe: "Files that are allowed to be read.",
+    describe: "Files that are always allowed to be read.",
     default: ["webpack.json"],
-    array: true,
-  })
-  .option("allowedFiletypes", {
-    describe: "Filetypes that are allowed to be read.",
-    default: [".json"],
     array: true,
   })
   .option("ignoredFiles", {
@@ -81,98 +105,65 @@ yargs
     default: [],
     array: true,
   })
-  .option("webpackConfig", {
-    describe: "The webpack config to use for the compilers",
-    default: "webpack.config.js",
-    string: true,
-  })
+
+
   .help("h")
   .alias("h", "help")
   .strict()
 
-// Create the variables
 const {
   address,
-  renderUrl,
-  stateUrl,
-  stateFileName,
-  statsUrl,
-  statsPath,
-  statsFileName,
-  pagesPath,
-  secretKey,
-  secretKeyHeaderName,
-  bundlePath,
-  bundleName,
-  allowedFiles,
-  allowedFiletypes,
-  ignoredFiles,
+  compilerPort,
+  providerPort,
   webpackConfig,
+  renderUrl,
+  defaultStateFileName,
+  defaultStateUrl,
+  reducersDirs,
+  pagesDir,
+  browserStatsUrl,
+  browserStatsPath,
+  browserStatsFileName,
+  secretKeyValue,
+  secretKeyHeaderName,
+  serverBundlePath,
+  serverBundleName,
+  allowedFiles,
+  ignoredFiles,
 } = yargs.argv
 
 
-const root = path.resolve(".")
-
-const {
-  options: {
-    paths,
-  },
-  methods: {
-    getFirstExistingFile,
-    getStateFilePaths,
-    readResponse,
-    renderResponse,
-  },
-} = configure(
-  root,
-  bundlePath,
-  bundleName,
-  statsFileName,
-  stateFileName,
-  allowedFiles,
-  allowedFiletypes,
-  ignoredFiles,
-  secretKey,
-  secretKeyHeaderName,
-)
+// This should be the path of the project.
+const projectRoot = path.resolve(".")
+const webpackConfigPath = path.join(projectRoot, webpackConfig)
+const startCompilerServer = require("../servers/compiler")
+const startProviderServer = require("../servers/provider")
 
 if (process.env.NODE_ENV !== "production") {
-  const startCompilerServer = require("../servers/compiler")
-
   startCompilerServer({
     address,
-    renderResponse,
-    config: path.join(root, webpackConfig),
+    port: compilerPort,
+    webpackConfigPath,
   })
 }
 
-const startProviderServer = require("../servers/provider")
-
 startProviderServer({
   address,
-  render: {
-    url: renderUrl,
-    responder: renderResponse,
-    settings: {
-      paths,
-    },
-  },
-  state: {
-    url: stateUrl,
-    responder: readResponse,
-    settings: {
-      getFirstExistingFile,
-      getStateFilePaths,
-      pagesPath,
-    },
-  },
-  stats: {
-    url: statsUrl,
-    responder: readResponse,
-    settings: {
-      statsPath,
-      statsFileName,
-    },
-  },
+  port: providerPort,
+  renderUrl,
+  defaultStateUrl,
+  browserStatsPath,
+  browserStatsUrl,
+  projectRoot,
+  serverBundlePath,
+  serverBundleName,
+  browserStatsFileName,
+  defaultStateFileName,
+  reducersDirs,
+  pagesDir,
+  allowedFiles,
+  ignoredFiles,
+  secretKeyValue,
+  secretKeyHeaderName,
 })
 

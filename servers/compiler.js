@@ -7,13 +7,14 @@ const bodyParser = require("body-parser")
 
 module.exports = ({
   address,
-  config,
+  port,
+  webpackConfigPath,
 }) => {
   const app = express()
 
-  const webpackConfig = require(config)
+  const webpackConfig = require(webpackConfigPath)
   const compiler = webpack(webpackConfig)
-  const clientCompiler = compiler.compilers[0]
+  const browserCompiler = compiler.compilers[0]
 
   app.use(bodyParser.json())
 
@@ -30,15 +31,16 @@ module.exports = ({
       serverSideRender: true,
     })
   )
-  app.use(webpackHotMiddleware(clientCompiler, {
-    path: "/__webpack_hmr",
+  app.use(webpackHotMiddleware(browserCompiler, {
+    path: "/__webpackHot__",
+    // Should be half the time of the timeout setting on client.
     heartbeat: 1000,
   }))
   app.use(webpackHotServerMiddleware(compiler, {
     chunkName: "server",
   }))
 
-  app.listen(8081, address, () => {
-    console.log(`Compiler listening on http(s)://${address}:8081`)
+  app.listen(port, address, () => {
+    console.log(`Compiler listening on http(s)://${address}:${port}`)
   })
 }

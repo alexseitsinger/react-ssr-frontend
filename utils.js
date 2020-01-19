@@ -57,42 +57,51 @@ function onFileExists(target, callback, errback) {
   })
 }
 
-function configure(
-  root,
-  bundlePath,
-  bundleName,
-  statsFileName,
-  stateFileName,
+function getNamesForModalsDefaultState(reducerName) {
+  const str = reducerName.replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+  const bits = str.split(" ")
+  const pageName = bits.shift()
+  const modalName = bits.map(s => s.toLowerCase()).join("-")
+  return {
+    pageName,
+    modalName,
+  }
+}
+
+
+function configure({
+  projectRoot,
+  serverBundlePath,
+  serverBundleName,
+  browserStatsFileName,
+  defaultStateFileName,
   allowedFiles,
-  allowedFileTypes,
   ignoredFiles,
-  secretKey,
+  secretKeyValue,
   secretKeyHeaderName,
-) {
+  reducersDirs,
+  pagesDir,
+}) {
   // The paths used to find the bundle on the filesystem.
-  const bundlePathSuffix = path.join(bundlePath, bundleName)
-  const bundlePaths = [
-    bundleName,
-    path.resolve(`./${bundlePathSuffix}`),
-    path.resolve(`../../${bundlePathSuffix}`),
-    path.resolve(`../../../../${bundlePathSuffix}`),
+  const serverBundlePathSuffix = path.join(serverBundlePath, serverBundleName)
+  const serverBundlePaths = [
+    serverBundleName,
+    path.resolve(`./${serverBundlePathSuffix}`),
+    path.resolve(`../../${serverBundlePathSuffix}`),
+    path.resolve(`../../../../${serverBundlePathSuffix}`),
   ].filter(bp => {
-    if (isOutsideRoot(bp, root)) {
+    if (isOutsideRoot(bp, projectRoot)) {
       return false
     }
     return true
   })
 
-  const opts = {
-    paths: bundlePaths,
+  const options = {
+    paths: serverBundlePaths,
     allowed: [
-      statsFileName,
-      stateFileName,
+      browserStatsFileName,
+      defaultStateFileName,
       ...allowedFiles,
-    ],
-    allowedTypes: [
-      ".json",
-      ...allowedFileTypes,
     ],
     ignored: [
       ".env",
@@ -109,7 +118,7 @@ function configure(
   function getFirstExistingFile(filePaths, callback) {
     var isFound = false
 
-    const realPaths = filePaths.map(p => path.join(root, p))
+    const realPaths = filePaths.map(p => path.join(projectRoot, p))
 
     realPaths.forEach((filePath, i) => {
       if (isFound === true) {
@@ -133,26 +142,24 @@ function configure(
     })
   }
 
+  function getDefaultStateFilePathsPossible(targetName) {
+    const pathsPossible = []
 
-  function getStateFilePaths({
-    reducerName,
-    pagesPath,
-  }) {
-    const reducerFile = `reducer/${stateFileName}`
+    reducersDirs.forEach(reducersDir => {
+      pathsPossible.push(`${reducersDir}/${targetName}/${defaultStateFileName}`)
+    })
 
-    const paths = [
-      `src/app/core/reducers/${reducerName}/${stateFileName}`,
-      `src/app/site/reducers/${reducerName}/${stateFileName}`,
-      `${pagesPath}/${reducerName}/${reducerFile}`,
-    ]
+    // <src/app/site/pages>/<home>/<reducer/defaultState.json>
+    pathsPossible.push(`${pagesDir}/${targetName}/reducer/${defaultStateFileName}`)
 
-    if (reducerName.endsWith("Modal")) {
-      const { modalName, pageName } = getNamesForState(reducerName)
-      const modalPath = `${pagesPath}/${pageName}/modals/${modalName}/${reducerFile}`
-      paths.push(modalPath)
+    if (targetName.endsWith("Modal")) {
+      const { modalName, pageName } = getNamesForModalsDefaultState(targetName)
+      // <src/app/site/pages>/<home>/<modals/login>/<reducer/defaultState.json>
+      const modalPath = `${pagesDir}/${pageName}/modals/${modalName}/reducer/${defaultStateFileName}`
+      pathsPossible.push(modalPath)
     }
 
-    return paths
+    return pathsPossible
   }
 
 
@@ -160,7 +167,7 @@ function configure(
   function isIgnoredFile(target) {
     const targetPath = path.resolve(target)
     const targetFile = path.basename(targetPath)
-    return opts.ignored.includes(targetFile)
+    return options.ignored.includes(targetFile)
   }
 
   function isAllowedFile(target) {
@@ -169,16 +176,14 @@ function configure(
     const targetExt = path.extname(targetName)
 
     var isAllowed = false
-    if (opts.allowedTypes.includes(targetExt)) {
-      opts.allowed.forEach(fileName => {
-        if (isAllowed === true) {
-          return
-        }
-        if (targetName === fileName || targetName.startsWith(fileName)) {
-          isAllowed = true
-        }
-      })
-    }
+    options.allowed.forEach(fileName => {
+      if (isAllowed === true) {
+        return
+      }
+      if (targetName === fileName || targetName.startsWith(fileName)) {
+        isAllowed = true
+      }
+    })
     return isAllowed
   }
 
@@ -190,7 +195,7 @@ function configure(
 
     if (ignoredFile || outsideRoot || directory || !isAllowed) {
       const messages = []
-      const relative = path.relative(root, target)
+      const relative = path.relative(projectRoot, target)
       if (ignoredFile) {
         messages.push(`${relative} is an ignored file.`)
       }
@@ -212,14 +217,14 @@ function configure(
 
   // Restrict all readFile attempts to files within this directory.
   function isOutsideRoot(target) {
-    const relative = path.relative(root, path.resolve(target))
+    const relative = path.relative(projectRoot, path.resolve(target))
     return Boolean(relative && relative.startsWith("..") && !path.isAbsolute(relative))
   }
 
   // Returns true if the header exists and it matches the key specified.
   function hasSecretKey(req) {
     const headerValue = req.get(secretKeyHeaderName)
-    if (!secretKey || (headerValue === secretKey)) {
+    if (!secretKeyValue || (headerValue === secretKeyValue)) {
       return true
     }
     return false
@@ -257,7 +262,7 @@ function configure(
       return response.sendStatus(400).end()
     }
 
-    //const realPath = path.join(root, filePath)
+    //const realPath = path.join(projectRoot, filePath)
     readFile(filePath, (err, data) => {
       if (err) {
         return response.sendStatus(404).end()
@@ -267,11 +272,7 @@ function configure(
     })
   }
 
-  function renderResponse(
-    bundlesSuspected,
-    request,
-    response,
-  ) {
+  function renderResponse(request, response) {
     setNoCacheHeaders(response)
 
     if (!hasSecretKey(request)) {
@@ -279,17 +280,18 @@ function configure(
     }
 
     var isRendered = false
-    bundlesSuspected.forEach((bp, i, arr) => {
+    serverBundlePaths.forEach((bp, i, arr) => {
       if (isRendered === true) {
         return
       }
-      onFileExists(bp, bundlePathFound => {
+
+      onFileExists(bp, serverBundlePathFound => {
         if (isRendered === true) {
           return
         }
 
-        const rel = path.relative(root, bundlePathFound)
-        const serverRenderer = requireModule(bundlePathFound)
+        const rel = path.relative(projectRoot, serverBundlePathFound)
+        const serverRenderer = requireModule(serverBundlePathFound)
         const serverRender = serverRenderer()
         logMessage([`Successfully imported bundle. (${rel})`])
 
@@ -328,24 +330,11 @@ function configure(
   }
 
   return {
-    options: opts,
-    methods: {
-      getFirstExistingFile,
-      getStateFilePaths,
-      renderResponse,
-      readResponse,
-    },
-  }
-}
-
-function getNamesForState(reducerName) {
-  const str = reducerName.replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-  const bits = str.split(" ")
-  const pageName = bits.shift()
-  const modalName = bits.map(s => s.toLowerCase()).join("-")
-  return {
-    pageName,
-    modalName,
+    serverBundlePaths,
+    getFirstExistingFile,
+    getDefaultStateFilePathsPossible,
+    renderResponse,
+    readResponse,
   }
 }
 
