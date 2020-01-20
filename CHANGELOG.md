@@ -1,3 +1,11 @@
+<a name="v9.1.0"></a>
+## [v9.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v9.0.0...v9.1.0) (2020-01-20)
+
+### Code Refactoring
+- Changes options. ([795cd0f](https://github.com/alexseitsinger/react-ssr-frontend/commit/795cd0f9e331d062c227a6ef6df6b1d675025070))
+- Renames history to prevent shadowing. ([1e360dd](https://github.com/alexseitsinger/react-ssr-frontend/commit/1e360dd3b47c1a8e63f612b2c5c74b417c66c895))
+
+
 <a name="v9.0.0"></a>
 ## [v9.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v8.0.1...v9.0.0) (2020-01-19)
 
