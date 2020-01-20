@@ -47,7 +47,7 @@
     "yargs": "15.1.0"
   },
   "devDependencies": {
-    "@alexseitsinger/eslint-config": "^2.1.0",
+    "@alexseitsinger/eslint-config": "^2.2.0",
     "@babel/core": "7.8.3",
     "@babel/plugin-proposal-export-default-from": "7.8.3",
     "@babel/plugin-proposal-export-namespace-from": "7.8.3",
