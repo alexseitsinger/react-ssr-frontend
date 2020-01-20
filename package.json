@@ -1,6 +1,6 @@
 {
   "name": "@alexseitsinger/react-ssr",
-  "version": "9.0.0",
+  "version": "9.1.0",
   "description": "Front-end service for server-side rendering react apps.",
   "main": "index.js",
   "files": [
