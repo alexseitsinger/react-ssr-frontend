@@ -19,8 +19,8 @@ import { browserBundle } from "@alexseitsinger/react-ssr"
 
 export const store = browserBundle({
   App,
-  configureStore,
-  render: (PreparedApp, store, history) => {
+  createStore,
+  render: (PreparedApp, { store, browserHistory }) => {
     hydrate(<PreparedApp />, document.getElementById("app"))
   }),
 })
@@ -35,8 +35,8 @@ import { serverBundle } from "@alexseitsinger/react-ssr"
 
 export default serverBundle({
   App,
-  configureStore,
-  render: (PreparedApp, store, history, url) => {
+  createStore,
+  render: (PreparedApp, { store, serverHistory, url }) => {
     const html = renderToString(<PreparedApp />)
     const state = store.getState()
     return {
@@ -57,21 +57,25 @@ yarn react-server [--address <value> ...]
 
 #### Options
 
-- address: Specify the address the server(s) should listen on. (default: 0.0.0.0)
-- compilerPort: Specify the port the compiler server will use. (default: 8081)
-- providerPort: Specify the port the provider server will use. (default: 8082)
-- renderUrl: The url to use for the render endpoint. (default: /render)
-- pagesDir: The path to the pages components. (default: src/app/site/pages)
-- reducersDirs: The paths to the non-page reducers. (default: [])
-- defaultStateUrl: The url to use for getting default state. (default: /defaultState)
-- defaultStateFileName: The name of the state file for each reducer. (default: defaultState.json)
-- browserStatsUrl: The url to use to get the webpack stats data. (default: /browserStats)
-- browserStatsPath: The path to the webpack stats file. (default: dist/development/browser)
-- browserStatsFileName: The path to the webpack stats file. (default: webpack.json)
-- secretKeyValue: The secret key to use to protect requests.
-- secretKeyHeaderName: The HTTP header that is used to carry the secret key.
-- serverBundlePath: The path to find the bundle. (default: dist/development/server)
-- serverBundleName: The name of the bundle used for server-side rendering. (default: server.js)
-- allowedFiles: Files that are allowed to be read. (default: [webpack.json])
-- ignoredFiles: Specific files that are not allowed to be read. (default: [])
-- webpackConfig: The webpack config to use for the compilers. (default: webpack.config.js)
+Name                 | Description                                                               | Default           | Required
+---
+address              | The address the servers should listen on.                                 | 0.0.0.0           | yes
+compilerPort         | The port the compiler server should use.                                  | 8081              | no
+providerPort         | The port the provider server should ue.                                   | 8082              | no
+browserConfig        | The path to the browser-side webpack config.                              | undefined         | yes
+serverConfig         | The path to the server-side webpack config                                | undefined         | yes
+renderURL            | The endpoint that provides server-side renders.                           | /render           | no
+reducerDirs          | Extra paths to reducer directories within the app.                        | []                | no
+appPath              | The base path to use when finding default state files.                    | ''                | yes
+defaultStateURL      | The url to use for retrieving default state.                              | /defaultState     | no
+defaultStateFileName | The file name to look for which contains the default state.               | defaultState.json | no
+browserStatsURL      | The url to use for retrieving the current browser bundle's webpack stats. | /browserStats     | no
+browserStatsPath     | The path to prepend to the browser stats file.                            | ''                | yes
+browserStatsFileName | The name of the browser stats file.                                       | stats.json        | no
+secretKeyValue       | The secret key value to match against when receiving requests.            | ''                | no
+secretKeyHeaderName  | The name of the header that will contain the secret key.                  | 'secret-key'      | no
+serverBundlePath     | The path to find the server bundle.                                       | ''                | yes
+serverBundleName     | The name of the server bundle.                                            | 'server.js'       | no
+allowedFiles         | Names of files that are allowed to be read.                               | ['webpack.json']  | no
+ignoredFiles         | Names of files that are never allowed to be read.                         | []                | no
+
