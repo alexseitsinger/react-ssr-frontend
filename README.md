@@ -58,7 +58,7 @@ yarn react-server [--address <value> ...]
 #### Options
 
 Name                 | Description                                                               | Default           | Required
----
+---                  | ---                                                                       | ---               | ---
 address              | The address the servers should listen on.                                 | 0.0.0.0           | yes
 compilerPort         | The port the compiler server should use.                                  | 8081              | no
 providerPort         | The port the provider server should ue.                                   | 8082              | no
