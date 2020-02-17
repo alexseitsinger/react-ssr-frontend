@@ -1,3 +1,10 @@
+<a name="v10.0.0"></a>
+## [v10.0.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v9.1.0...v10.0.0) (2020-02-17)
+
+### Code Refactoring
+- Changes configureStore to createStore. ([b80768d](https://github.com/alexseitsinger/react-ssr-frontend/commit/b80768d8f32b61dcdb33e595e73fef5a1a208bbf))
+
+
 <a name="v9.1.0"></a>
 ## [v9.1.0](https://github.com/alexseitsinger/react-ssr-frontend/compare/v9.0.0...v9.1.0) (2020-01-20)
 
