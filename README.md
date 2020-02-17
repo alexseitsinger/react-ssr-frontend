@@ -65,17 +65,17 @@ providerPort         | The port the provider server should ue.                  
 browserConfig        | The path to the browser-side webpack config.                              | undefined         | yes
 serverConfig         | The path to the server-side webpack config                                | undefined         | yes
 renderURL            | The endpoint that provides server-side renders.                           | /render           | no
-reducerDirs          | Extra paths to reducer directories within the app.                        | []                | no
-appPath              | The base path to use when finding default state files.                    | ''                | yes
+reducerDirs          | Extra paths to reducer directories within the app.                        | undefined         | no
+appPath              | The base path to use when finding default state files.                    | undefined         | yes
 defaultStateURL      | The url to use for retrieving default state.                              | /defaultState     | no
 defaultStateFileName | The file name to look for which contains the default state.               | defaultState.json | no
 browserStatsURL      | The url to use for retrieving the current browser bundle's webpack stats. | /browserStats     | no
-browserStatsPath     | The path to prepend to the browser stats file.                            | ''                | yes
+browserStatsPath     | The path to prepend to the browser stats file.                            | undefined         | yes
 browserStatsFileName | The name of the browser stats file.                                       | stats.json        | no
-secretKeyValue       | The secret key value to match against when receiving requests.            | ''                | no
-secretKeyHeaderName  | The name of the header that will contain the secret key.                  | 'secret-key'      | no
-serverBundlePath     | The path to find the server bundle.                                       | ''                | yes
-serverBundleName     | The name of the server bundle.                                            | 'server.js'       | no
-allowedFiles         | Names of files that are allowed to be read.                               | ['webpack.json']  | no
-ignoredFiles         | Names of files that are never allowed to be read.                         | []                | no
+secretKeyValue       | The secret key value to match against when receiving requests.            | undefined         | no
+secretKeyHeaderName  | The name of the header that will contain the secret key.                  | secret-key        | no
+serverBundlePath     | The path to find the server bundle.                                       | undefined         | yes
+serverBundleName     | The name of the server bundle.                                            | server.js         | no
+allowedFiles         | Names of files that are allowed to be read.                               | webpack.json      | no
+ignoredFiles         | Names of files that are never allowed to be read.                         | undefined         | no
 
