@@ -1,8 +1,9 @@
 const path = require("path")
 const nodeExternals = require("webpack-node-externals")
+//const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.ts",
   mode: "development",
   target: "node",
   devtool: "source-map",
@@ -15,13 +16,26 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        use: "babel-loader",
-        include: [
-          path.resolve("./src"),
+        test: /\.(j|t)sx?$/,
+        include: [path.resolve("./src")],
+        use: [
+          "babel-loader",
+          {
+            loader: "ts-loader",
+            options: {
+              configFile: path.resolve("./tsconfig.dev.json"),
+            },
+          },
         ],
       },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".json", ".ts", ".tsx"],
+    alias: {
+      tests: path.resolve("./tests"),
+      src: path.resolve("./src"),
+    },
   },
   externals: [
     nodeExternals({
