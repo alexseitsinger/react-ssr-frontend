@@ -35,7 +35,7 @@
     "core-js": "3.6.4",
     "express": "4.17.1",
     "history": "4.10.1",
-    "react-dev-utils": "^10.2.0",
+    "react-dev-utils": "^11.0.4",
     "redux": "^4.0.5",
     "underscore": "^1.9.2",
     "webpack": "^4.41.6",
